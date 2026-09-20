@@ -1,0 +1,45 @@
+# Node.js
+frontend/node_modules/
+frontend/.react-router/
+frontend/build/
+frontend/coverage/
+*.tsbuildinfo
+npm-debug.log*
+
+# .NET
+**/[Bb]in/
+**/[Oo]bj/
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# IDE and OS files
+.vs/
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.user
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+appsettings.Local.json
+appsettings.*.Local.json
+
+# Local databases and logs
+*.db
+*.db-shm
+*.db-wal
+*.log
+
+# Supplied local-only source references; versioned copies live under frontend/src/assets.
+Ahmed_Saad_Portfolio_Codex_Implementation_Spec.md
+/ahmed_saad.png
+/Logo.png
+/Ahmed_Mohammed_Saad_Backend_DotNet_Developer_CV.pdf
+/stitch_backend.net_developer_portfolio (3).zip
