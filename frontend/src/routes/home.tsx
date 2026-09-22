@@ -31,8 +31,8 @@ export default function HomeRoute() {
       <main id="main-content" tabIndex={-1}>
         <Hero />
         <About />
-        <CoreStack />
         <FeaturedProjects />
+        <CoreStack />
         <Experience />
         <EngineeringPrinciples />
         <ContactSection />

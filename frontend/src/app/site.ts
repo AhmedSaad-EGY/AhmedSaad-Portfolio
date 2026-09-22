@@ -12,6 +12,7 @@ export const site = {
   links: {
     github: 'https://github.com/AhmedSaad-EGY',
     linkedin: 'https://www.linkedin.com/in/ahmed-mohamed-saad-b57695356/',
+    resume: 'https://drive.google.com/file/d/1SAC15_6P-STkrfgnyMSiBScNMmcF8xLz',
     whatsapp: 'https://wa.me/201026162117',
   },
 } as const

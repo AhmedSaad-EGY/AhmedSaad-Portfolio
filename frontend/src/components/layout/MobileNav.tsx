@@ -1,16 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Link, useLocation } from 'react-router'
 
-const items = [
-  ['Home', '#home'],
-  ['About', '#about'],
-  ['Projects', '/projects'],
-  ['Experience', '#experience'],
-  ['Skills', '#skills'],
-  ['Contact', '#contact'],
-] as const
+import { primaryNavigation, type HomeSectionId } from '../../app/navigation'
+import { site } from '../../app/site'
 
-export function MobileNav() {
+type MobileNavProps = {
+  activeSection: HomeSectionId | null
+}
+
+export function MobileNav({ activeSection }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -25,11 +24,34 @@ export function MobileNav() {
     const previousOverflow = document.body.style.overflow
     const trigger = buttonRef.current
     document.body.style.overflow = 'hidden'
-    menuRef.current?.focus()
+    menuRef.current?.querySelector<HTMLButtonElement>('button')?.focus()
 
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
         setIsOpen(false)
+        return
+      }
+
+      if (event.key !== 'Tab' || !menuRef.current) {
+        return
+      }
+
+      const focusable = Array.from(
+        menuRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'),
+      )
+      const first = focusable[0]
+      const last = focusable.at(-1)
+
+      if (!first || !last) {
+        return
+      }
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
       }
     }
 
@@ -42,7 +64,7 @@ export function MobileNav() {
   }, [isOpen])
 
   return (
-    <div className="lg:hidden">
+    <div className="xl:hidden">
       <button
         ref={buttonRef}
         className="focus-ring grid size-11 place-items-center border border-border text-text-primary"
@@ -59,12 +81,14 @@ export function MobileNav() {
         </span>
       </button>
 
-      {isOpen ? (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-bg px-5 pt-5">
+      {isOpen && typeof document !== 'undefined' ? createPortal(
+        <div className="mobile-nav-overlay fixed inset-0 z-[100] min-h-dvh overflow-y-auto px-5 pb-8 pt-5">
+          <span className="mobile-nav-orbit mobile-nav-orbit--one" aria-hidden="true" />
+          <span className="mobile-nav-orbit mobile-nav-orbit--two" aria-hidden="true" />
           <div
             ref={menuRef}
             id="mobile-navigation"
-            className="mx-auto max-w-7xl outline-none"
+            className="mobile-nav-panel relative z-10 mx-auto grid min-h-[calc(100dvh-3.25rem)] max-w-7xl grid-rows-[auto_1fr_auto] outline-none"
             role="dialog"
             aria-modal="true"
             aria-label="Main navigation"
@@ -81,30 +105,34 @@ export function MobileNav() {
                 <span aria-hidden="true" className="text-2xl leading-none">×</span>
               </button>
             </div>
-            <nav className="mt-10" aria-label="Mobile navigation">
-              <ul className="space-y-2">
-                {items.map(([label, destination]) => {
-                  const href = destination.startsWith('#') && !isHome ? `/${destination}` : destination
-                  const isCurrent = destination === '/projects' && location.pathname.startsWith('/projects')
+            <nav className="flex items-center py-7" aria-label="Mobile navigation">
+              <ul className="w-full space-y-1">
+                {primaryNavigation.map((item) => {
+                  const href = item.sectionId === 'projects' && isHome
+                    ? '#projects'
+                    : item.href.startsWith('#') && !isHome ? `/${item.href}` : item.href
+                  const isProjectRoute = item.href === '/projects' && location.pathname.startsWith('/projects')
+                  const currentState = isProjectRoute ? 'page' : isHome && activeSection === item.sectionId ? 'location' : undefined
 
                   return (
-                    <li key={label}>
+                    <li key={item.label}>
                       {href === '/projects' ? (
                         <Link
-                          className="focus-ring block border-b border-border py-4 text-2xl font-medium text-text-primary"
+                          className="mobile-nav-link focus-ring block border-b border-border py-3 text-xl font-medium text-text-primary sm:py-4 sm:text-2xl"
                           to={href}
-                          aria-current={isCurrent ? 'page' : undefined}
+                          aria-current={currentState}
                           onClick={() => setIsOpen(false)}
                         >
-                          {label}
+                          {item.label}
                         </Link>
                       ) : (
                         <a
-                          className="focus-ring block border-b border-border py-4 text-2xl font-medium text-text-primary"
+                          className="mobile-nav-link focus-ring block border-b border-border py-3 text-xl font-medium text-text-primary sm:py-4 sm:text-2xl"
                           href={href}
+                          aria-current={currentState}
                           onClick={() => setIsOpen(false)}
                         >
-                          {label}
+                          {item.label}
                         </a>
                       )}
                     </li>
@@ -112,8 +140,20 @@ export function MobileNav() {
                 })}
               </ul>
             </nav>
+            <div className="mobile-resource-grid grid gap-3 border-t border-border pt-5 sm:grid-cols-3" aria-label="Professional resources">
+              {[
+                ['GitHub', site.links.github],
+                ['LinkedIn', site.links.linkedin],
+                ['Resume', site.links.resume],
+              ].map(([label, href]) => (
+                <a className="focus-ring button-secondary" href={href} target="_blank" rel="noreferrer" key={label}>
+                  {label}
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
+        </div>,
+        document.body,
       ) : null}
     </div>
   )

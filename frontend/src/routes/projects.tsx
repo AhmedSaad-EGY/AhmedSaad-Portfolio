@@ -28,7 +28,7 @@ export default function ProjectsRoute() {
   return (
     <AppShell>
       <main id="main-content" tabIndex={-1}>
-        <section className="page-intro border-b border-border/80 py-16 sm:py-20 lg:py-24">
+        <section className="page-entry page-intro chapter-section border-b border-border/80 py-16 sm:py-20 lg:py-24" data-chapter="P1">
           <Container>
             <SectionHeading
               eyebrow="PROJECTS"
@@ -37,12 +37,12 @@ export default function ProjectsRoute() {
             />
           </Container>
         </section>
-        <section className="projects-section py-14 sm:py-18 lg:py-20" aria-label="Project list">
+        <section className="projects-section chapter-section py-14 sm:py-18 lg:py-20" aria-label="Project list" data-reveal data-chapter="P2">
           <Container>
-            <ProjectCard featured sequence="01" project={clinic} />
+            <ProjectCard featured sequence="01" revealOrder={0} project={clinic} />
             <div className="mt-5 grid gap-5 lg:grid-cols-3">
               {secondaryProjects.map((project, index) => (
-                <ProjectCard sequence={`0${index + 2}`} key={project.slug} project={project} />
+                <ProjectCard sequence={`0${index + 2}`} revealOrder={index + 1} key={project.slug} project={project} />
               ))}
             </div>
           </Container>

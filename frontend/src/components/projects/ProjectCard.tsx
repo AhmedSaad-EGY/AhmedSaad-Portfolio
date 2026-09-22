@@ -6,11 +6,14 @@ type ProjectCardProps = {
   project: Project
   featured?: boolean
   sequence?: string
+  revealOrder?: number
 }
 
-export function ProjectCard({ project, featured = false, sequence }: ProjectCardProps) {
+export function ProjectCard({ project, featured = false, sequence, revealOrder = 0 }: ProjectCardProps) {
   return (
-    <article className={`project-card ${featured ? 'project-card-featured' : ''}`}>
+    <article className={`project-card ${featured ? 'project-card-featured' : ''}`} data-reveal-item data-reveal-order={revealOrder} data-pointer-surface>
+      <span className="project-card__spotlight" aria-hidden="true" />
+      <span className="project-card__edge" aria-hidden="true" />
       <div className="project-card__meta">
         <span>{sequence ?? 'PROJECT'}</span>
         <span>{featured ? 'FLAGSHIP CASE STUDY' : project.subtitle}</span>
@@ -34,11 +37,15 @@ export function ProjectCard({ project, featured = false, sequence }: ProjectCard
       <div className="project-card__actions">
         <div className="flex flex-wrap gap-x-5 gap-y-3 text-sm">
           {project.links.map((link) => (
-            <a className="focus-ring font-medium text-text-primary hover:text-cyan" href={link.href} key={link.label} target="_blank" rel="noreferrer">{link.label} ↗</a>
+            <a className="focus-ring project-action font-medium text-text-primary hover:text-cyan" href={link.href} key={link.label} target="_blank" rel="noreferrer">
+              {link.label} <span className="project-action__arrow" aria-hidden="true">↗</span>
+            </a>
           ))}
         </div>
         {project.caseStudyPath ? (
-          <Link className="focus-ring project-case-study" to={project.caseStudyPath}>Case study →</Link>
+          <Link className="focus-ring project-case-study interactive-cta" data-magnetic to={project.caseStudyPath}>
+            Case study <span className="project-action__arrow" aria-hidden="true">→</span>
+          </Link>
         ) : null}
       </div>
     </article>

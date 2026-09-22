@@ -14,6 +14,7 @@ describe('projects route', () => {
 
     expect(screen.getByRole('heading', { level: 2, name: 'Backend projects with real business workflows.' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Clinic Management Backend' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Case study →' })).toHaveAttribute('href', '/projects/clinic-management')
+    expect(screen.getByRole('link', { name: 'Case study' })).toHaveAttribute('href', '/projects/clinic-management')
+    expect(document.querySelector('[data-scroll-progress]')).toBeInTheDocument()
   })
 })

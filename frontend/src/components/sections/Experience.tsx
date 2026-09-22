@@ -1,16 +1,19 @@
 import { experience } from '../../content/experience'
+import { SectionAtmosphere } from '../motion/SectionAtmosphere'
 import { Container } from '../ui/Container'
 import { SectionHeading } from '../ui/SectionHeading'
 
 export function Experience() {
   return (
-    <section id="experience" className="experience-section scroll-mt-20 border-y border-border/80 py-20 sm:py-24 lg:py-28" aria-labelledby="experience-title">
+    <section id="experience" data-scroll-anchor data-reveal data-chapter="04" className="experience-section chapter-section border-y border-border/80 py-16 sm:py-24 lg:py-28" aria-labelledby="experience-title">
+      <SectionAtmosphere scene="experience" />
       <Container>
         <SectionHeading eyebrow="EXPERIENCE" title="Professional and training experience." />
         <div className="timeline mt-12">
           {experience.map((item, index) => (
-            <article className="timeline-entry" key={`${item.company}-${item.role}`}>
+            <article className="timeline-entry" key={`${item.company}-${item.role}`} data-reveal-item data-reveal-order={index}>
               <span className="timeline-node" aria-hidden="true"><span /></span>
+              <span className="timeline-connector" aria-hidden="true" />
               <div className="timeline-entry__index">0{index + 1}</div>
               <div className="timeline-entry__content">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">

@@ -40,7 +40,7 @@ export default function ClinicManagementRoute() {
     <AppShell>
       <main id="main-content" tabIndex={-1}>
         <script type="application/ld+json">{JSON.stringify(sourceCodeJsonLd)}</script>
-        <section className="case-hero border-b border-border/80 py-16 sm:py-20 lg:py-24">
+        <section className="page-entry case-hero chapter-section border-b border-border/80 py-16 sm:py-20 lg:py-24" data-chapter="C0">
           <Container className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end lg:gap-16">
             <div>
             <Link className="focus-ring text-sm text-cyan hover:text-text-primary" to="/projects">
@@ -74,23 +74,23 @@ export default function ClinicManagementRoute() {
             <CaseStudyToc />
           </aside>
           <article className="case-article min-w-0 space-y-16">
-            <section className="case-section case-section--intro" aria-labelledby="overview-title">
+            <section className="case-section case-section--intro" aria-labelledby="overview-title" data-reveal data-case-step="00">
               <SectionHeading eyebrow="OVERVIEW" title="A focused backend case study." />
-              <p className="mt-6 max-w-3xl text-lg leading-8 text-text-secondary">{clinicCaseStudy.overview}</p>
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-text-secondary" data-reveal-copy>{clinicCaseStudy.overview}</p>
             </section>
-            <section id="architecture" className="case-section scroll-mt-24" aria-labelledby="architecture-title">
+            <section id="architecture" data-scroll-anchor className="case-section" aria-labelledby="architecture-title" data-reveal data-case-step="01">
               <SectionHeading eyebrow="ARCHITECTURE" title="Clean Architecture & System Flow" description={clinicCaseStudy.architecture.title} />
               <div className="mt-8">
                 <ArchitectureDiagram />
               </div>
             </section>
             {clinicCaseStudy.sections.map((section, index) => (
-              <section className="case-section scroll-mt-24" id={section.id} key={section.id} aria-labelledby={`${section.id}-title`}>
+              <section className="case-section" id={section.id} data-scroll-anchor key={section.id} aria-labelledby={`${section.id}-title`} data-reveal data-case-step={`0${index + 2}`}>
                 <p className="section-eyebrow">0{index + 1} · SYSTEM CONCERN</p>
                 <h2 id={`${section.id}-title`} className="mt-5 text-2xl font-semibold tracking-tight text-text-primary sm:text-3xl">
                   {section.title}
                 </h2>
-                <p className="mt-5 max-w-3xl text-[1.0625rem] leading-8 text-text-secondary">{section.body}</p>
+                <p className="mt-5 max-w-3xl text-[1.0625rem] leading-8 text-text-secondary" data-reveal-copy>{section.body}</p>
               </section>
             ))}
           </article>

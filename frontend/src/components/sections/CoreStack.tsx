@@ -1,3 +1,4 @@
+import { SectionAtmosphere } from '../motion/SectionAtmosphere'
 import { Container } from '../ui/Container'
 import { SectionHeading } from '../ui/SectionHeading'
 
@@ -13,12 +14,13 @@ const tools = ['Git', 'GitHub', 'Swagger / OpenAPI', 'Postman', 'Visual Studio']
 
 export function CoreStack() {
   return (
-    <section id="skills" className="stack-section scroll-mt-20 border-y border-border/80 py-20 sm:py-24 lg:py-28" aria-labelledby="stack-title">
+    <section id="skills" data-scroll-anchor data-reveal data-chapter="03" className="stack-section chapter-section border-y border-border/80 py-16 sm:py-24 lg:py-28" aria-labelledby="stack-title">
+      <SectionAtmosphere scene="stack" />
       <Container>
         <SectionHeading eyebrow="CORE STACK" title="Tools and practices used across backend work." />
         <div className="stack-grid mt-12">
           {groups.map(([name, items], index) => (
-            <article className={`stack-group stack-group--${index + 1}`} key={name}>
+            <article className={`stack-group stack-group--${index + 1}`} key={name} data-reveal-item data-reveal-order={index} data-stack-node>
               <div className="stack-group__heading">
                 <span>0{index + 1}</span>
                 <h3>{name}</h3>
@@ -33,7 +35,7 @@ export function CoreStack() {
             </article>
           ))}
         </div>
-        <div className="stack-tools">
+        <div className="stack-tools" data-reveal-item data-reveal-order={groups.length}>
           <span>WORKFLOW</span>
           <ul>{tools.map((tool) => <li key={tool}>{tool}</li>)}</ul>
         </div>

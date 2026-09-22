@@ -7,12 +7,13 @@ import NotFoundRoute from './not-found'
 describe('not-found route', () => {
   it('renders an accessible recovery path', () => {
     render(
-      <MemoryRouter>
+      <MemoryRouter initialEntries={['/missing']}>
         <NotFoundRoute />
       </MemoryRouter>,
     )
 
     expect(screen.getByRole('heading', { name: 'This page does not exist.' })).toBeInTheDocument()
     expect(screen.getAllByRole('link', { name: 'Home' }).find((link) => link.getAttribute('href') === '/')).toBeDefined()
+    expect(document.querySelector('[data-scroll-progress]')).not.toBeInTheDocument()
   })
 })

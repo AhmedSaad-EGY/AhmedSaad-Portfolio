@@ -10,7 +10,7 @@ describe('mobile navigation', () => {
     const user = userEvent.setup()
     render(
       <MemoryRouter>
-        <MobileNav />
+        <MobileNav activeSection="home" />
       </MemoryRouter>,
     )
 
@@ -18,11 +18,33 @@ describe('mobile navigation', () => {
     await user.click(trigger)
 
     expect(screen.getByRole('dialog', { name: 'Main navigation' })).toBeInTheDocument()
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
     expect(document.body.style.overflow).toBe('hidden')
 
     await user.keyboard('{Escape}')
 
     expect(screen.queryByRole('dialog', { name: 'Main navigation' })).not.toBeInTheDocument()
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
     expect(trigger).toHaveFocus()
+  })
+
+  it('keeps keyboard focus inside the open navigation', async () => {
+    const user = userEvent.setup()
+    render(
+      <MemoryRouter>
+        <MobileNav activeSection="home" />
+      </MemoryRouter>,
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Open navigation menu' }))
+    const closeButton = screen.getByRole('button', { name: 'Close navigation menu' })
+    const resumeLink = screen.getByRole('link', { name: 'Resume' })
+
+    resumeLink.focus()
+    await user.tab()
+    expect(closeButton).toHaveFocus()
+
+    await user.tab({ shift: true })
+    expect(resumeLink).toHaveFocus()
   })
 })
