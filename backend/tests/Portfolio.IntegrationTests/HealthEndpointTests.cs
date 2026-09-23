@@ -1,16 +1,17 @@
-using Microsoft.AspNetCore.Mvc.Testing;
-
 namespace Portfolio.IntegrationTests;
 
-public sealed class HealthEndpointTests(WebApplicationFactory<Program> factory)
-    : IClassFixture<WebApplicationFactory<Program>>
+public sealed class HealthEndpointTests(PortfolioApiFactory factory)
+    : IClassFixture<PortfolioApiFactory>
 {
-    [Fact]
-    public async Task GetHealthReturnsSuccess()
+    [Theory]
+    [InlineData("/health")]
+    [InlineData("/health/live")]
+    [InlineData("/health/ready")]
+    public async Task HealthEndpointsReturnSuccess(string path)
     {
         using var client = factory.CreateClient();
 
-        var response = await client.GetAsync("/health");
+        var response = await client.GetAsync(path);
 
         response.EnsureSuccessStatusCode();
     }

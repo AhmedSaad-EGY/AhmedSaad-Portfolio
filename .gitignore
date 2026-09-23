@@ -30,6 +30,9 @@ Thumbs.db
 !.env.example
 appsettings.Local.json
 appsettings.*.Local.json
+*.publishSettings
+*.pubxml
+*.pubxml.user
 
 # Local databases and logs
 *.db

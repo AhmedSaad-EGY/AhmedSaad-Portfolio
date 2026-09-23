@@ -10,6 +10,9 @@ export default defineConfig(({ mode }) => {
     define: {
       __SITE_URL__: JSON.stringify(siteUrl),
     },
+    server: environment.API_PROXY_TARGET
+      ? { proxy: { '/api': { target: environment.API_PROXY_TARGET, changeOrigin: true } } }
+      : undefined,
     plugins: [tailwindcss(), reactRouter()],
   }
 })
