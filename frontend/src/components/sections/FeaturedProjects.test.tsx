@@ -21,12 +21,14 @@ describe('featured projects carousel', () => {
     renderProjects()
 
     expect(screen.getByRole('heading', { name: 'Clinic Management Backend' })).toBeInTheDocument()
+    expect(document.getElementById('projects')).toHaveAttribute('data-project-index', '0')
     expect(screen.queryByRole('heading', { name: 'EstateHub' })).not.toBeInTheDocument()
     expect(document.querySelectorAll('.project-carousel__stage img')).toHaveLength(1)
     expect(screen.getByRole('img', { name: /Project visual concept for Clinic Management Backend/ })).toHaveAttribute('loading', 'eager')
 
     fireEvent.click(screen.getByRole('button', { name: 'Previous project' }))
     expect(screen.getByRole('heading', { name: 'Khidma' })).toBeInTheDocument()
+    expect(document.getElementById('projects')).toHaveAttribute('data-project-index', '3')
     expect(document.querySelectorAll('.project-carousel__stage img')).toHaveLength(2)
     expect(screen.getByRole('status')).toHaveTextContent('Khidma, project 4 of 4')
     expect(screen.getByRole('button', { name: 'Show project 4: Khidma' })).toHaveAttribute('aria-pressed', 'true')

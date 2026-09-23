@@ -69,7 +69,7 @@ export function FeaturedProjects() {
   }
 
   return (
-    <section ref={sectionRef} id="projects" data-scroll-anchor data-reveal data-chapter="02" className="projects-section chapter-section py-16 sm:py-24 lg:py-28" aria-labelledby="featured-projects-title">
+    <section ref={sectionRef} id="projects" data-scroll-anchor data-reveal data-chapter="02" data-project-index={activeIndex} className="projects-section chapter-section py-16 sm:py-24 lg:py-28" aria-labelledby="featured-projects-title">
       <SectionAtmosphere scene="projects" />
       <Container>
         <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">

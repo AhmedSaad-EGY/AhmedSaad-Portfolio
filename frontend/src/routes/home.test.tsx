@@ -27,6 +27,8 @@ describe('home route', () => {
     expect(screen.getByRole('link', { name: 'Resume' })).toHaveAttribute('href', 'https://drive.google.com/file/d/1SAC15_6P-STkrfgnyMSiBScNMmcF8xLz')
     expect(document.querySelector('[data-scroll-progress]')).toBeInTheDocument()
     expect(document.querySelectorAll('.section-atmosphere')).toHaveLength(6)
+    expect(document.querySelectorAll('.section-atmosphere__field')).toHaveLength(6)
+    expect(document.querySelectorAll('.ambient-backdrop > *')).toHaveLength(1)
     const orderedSections = ['home', 'about', 'projects', 'skills', 'experience', 'contact'].map((id) => document.getElementById(id))
     for (const section of orderedSections) {
       expect(section).toHaveAttribute('data-scroll-anchor')
