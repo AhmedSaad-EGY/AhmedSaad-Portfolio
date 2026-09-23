@@ -8,7 +8,7 @@ import { SectionHeading } from '../ui/SectionHeading'
 
 const contactLinks = [
   ['Email', site.email, `mailto:${site.email}`],
-  ['LinkedIn', 'Professional profile', site.links.linkedin],
+  ['LinkedIn', 'Let’s connect', site.links.linkedin],
   ['GitHub', 'AhmedSaad-EGY', site.links.github],
   ['WhatsApp', 'Direct message', site.links.whatsapp],
 ] as const
@@ -113,7 +113,7 @@ export function ContactSection() {
             <p id="contact-form-status" className="contact-form__status text-sm leading-6 text-text-muted" aria-live="polite" data-status={status}>
               {status === 'success' && 'Message saved successfully. Thank you — I’ll get back to you soon.'}
               {status === 'error' && 'The message could not be sent right now. Please try again or use one of the direct contact methods.'}
-              {status === 'idle' && 'Your message will be submitted to the portfolio API.'}
+              {status === 'idle' && 'Share your project details and I’ll get back to you soon.'}
             </p>
           </div>
         </form>

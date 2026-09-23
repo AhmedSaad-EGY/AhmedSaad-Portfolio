@@ -23,9 +23,12 @@ describe('portfolio appreciation', () => {
     const button = screen.getByRole('button', { name: /like this portfolio/i })
     await waitFor(() => expect(button).toBeEnabled())
     expect(button).toHaveAttribute('aria-pressed', 'false')
+    expect(screen.getByText('Like')).toBeInTheDocument()
+    expect(screen.getByText('8')).toBeInTheDocument()
 
     await user.click(button)
     await waitFor(() => expect(button).toHaveAttribute('aria-pressed', 'true'))
+    expect(screen.getByText('Liked')).toBeInTheDocument()
     expect(button).toHaveAttribute('data-celebrate', 'true')
     expect(JSON.parse((fetchMock.mock.calls[1][1] as RequestInit).body as string)).toEqual({
       visitorId: '11111111-1111-4111-8111-111111111111',

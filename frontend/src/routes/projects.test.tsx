@@ -20,6 +20,11 @@ describe('projects route', () => {
       '/projects/saiyad',
     ])
     expect(screen.getByRole('link', { name: 'Technical breakdown' })).toHaveAttribute('href', '/projects/khidma')
+    const projectGithubLinks = screen.getAllByRole('link', { name: 'GitHub' }).filter((link) => link.closest('.project-card'))
+    expect(projectGithubLinks).toHaveLength(4)
+    for (const link of projectGithubLinks) {
+      expect(link).toHaveClass('project-resource-link')
+    }
     expect(document.querySelector('[data-scroll-progress]')).toBeInTheDocument()
   })
 })

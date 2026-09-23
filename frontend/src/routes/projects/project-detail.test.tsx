@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import { describe, expect, it } from 'vitest'
 
@@ -17,5 +17,6 @@ describe('project detail routes', () => {
     expect(screen.getByRole('heading', { level: 1, name })).toBeInTheDocument()
     expect(screen.getByText(summary)).toBeInTheDocument()
     expect(screen.getByText('What the source demonstrates.')).toBeInTheDocument()
+    expect(within(screen.getByRole('main')).getByRole('link', { name: 'GitHub' })).toHaveClass('project-resource-link')
   })
 })

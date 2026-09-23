@@ -50,9 +50,9 @@ export function ProjectCard({ project, featured = false, sequence, revealOrder =
         </figure>
       </div>
       <div className="project-card__actions">
-        <div className="flex flex-wrap gap-x-5 gap-y-3 text-sm">
+        <div className="flex flex-wrap gap-2 text-sm">
           {project.links.map((link) => (
-            <a className="focus-ring project-action font-medium text-text-primary hover:text-cyan" href={link.href} key={link.label} target="_blank" rel="noreferrer">
+            <a className="focus-ring project-resource-link" href={link.href} key={link.label} target="_blank" rel="noreferrer">
               {link.label} <span className="project-action__arrow" aria-hidden="true">↗</span>
             </a>
           ))}

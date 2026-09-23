@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { projectMetadata, projectStructuredData } from './seo'
+import { site } from './site'
 import { projects } from '../content/projects'
 
 describe('portfolio SEO', () => {
@@ -11,7 +12,7 @@ describe('portfolio SEO', () => {
       const socialImage = metadata.find((item) => 'property' in item && item.property === 'og:image')
       const twitterCard = metadata.find((item) => 'name' in item && item.name === 'twitter:card')
 
-      expect(canonical).toMatchObject({ rel: 'canonical', href: expect.stringContaining(project.caseStudyPath) })
+      expect(canonical).toMatchObject({ rel: 'canonical', href: `${site.url}${project.caseStudyPath}` })
       expect(socialImage).toMatchObject({ content: expect.stringContaining(`/og/${project.slug}.png`) })
       expect(twitterCard).toMatchObject({ content: 'summary_large_image' })
       expect(projectStructuredData(project)).toMatchObject({ '@type': 'SoftwareSourceCode', codeRepository: project.links[0].href })

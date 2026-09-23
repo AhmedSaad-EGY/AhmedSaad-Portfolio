@@ -15,6 +15,9 @@ describe('contact section', () => {
     const user = userEvent.setup()
     render(<ContactSection />)
 
+    expect(screen.getByText('Share your project details and I’ll get back to you soon.')).toBeInTheDocument()
+    expect(screen.getByText('Let’s connect').closest('a')).toHaveAttribute('href', 'https://www.linkedin.com/in/ahmed-mohamed-saad-b57695356/')
+
     await user.type(screen.getByLabelText('Name'), 'Ahmed Visitor')
     await user.type(screen.getByLabelText('Email'), 'visitor@example.com')
     await user.type(screen.getByLabelText('Subject'), 'Project enquiry')

@@ -20,9 +20,11 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
               <p className="section-eyebrow mt-9">{project.presentation.label.toUpperCase()} · {project.slug === 'khidma' ? 'DATABASE ENGINEERING' : 'BACKEND ENGINEERING'}</p>
               <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-[1.03] tracking-[-0.045em] text-text-primary sm:text-6xl">{project.name}</h1>
               <p className="mt-6 max-w-3xl text-lg leading-8 text-text-secondary">{project.cardSummary}</p>
-              <div className="mt-8 flex flex-wrap gap-x-5 gap-y-3 text-sm">
+              <div className="mt-8 flex flex-wrap gap-2 text-sm">
                 {project.links.map((link) => (
-                  <a className="focus-ring font-medium text-text-primary hover:text-cyan" href={link.href} key={link.label} target="_blank" rel="noreferrer">{link.label}</a>
+                  <a className="focus-ring project-resource-link" href={link.href} key={link.label} target="_blank" rel="noreferrer">
+                    {link.label} <span className="project-action__arrow" aria-hidden="true">↗</span>
+                  </a>
                 ))}
               </div>
             </div>
