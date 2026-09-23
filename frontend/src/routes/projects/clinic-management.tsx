@@ -11,7 +11,7 @@ import { clinicManagementProject } from '../../content/projects'
 
 export function meta() {
   const title = `Clinic Management Backend | ${site.name}`
-  const description = clinicManagementProject.description
+  const description = clinicManagementProject.cardSummary
 
   return [
     { title },
@@ -33,7 +33,7 @@ export default function ClinicManagementRoute() {
     name: clinicManagementProject.name,
     codeRepository: clinicManagementProject.links[0].href,
     programmingLanguage: ['C#'],
-    description: clinicManagementProject.description,
+    description: clinicManagementProject.cardSummary,
   }
 
   return (
@@ -48,7 +48,7 @@ export default function ClinicManagementRoute() {
             </Link>
               <p className="section-eyebrow mt-9">CASE STUDY · BACKEND ENGINEERING</p>
               <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-[1.03] tracking-[-0.045em] text-text-primary sm:text-6xl">{clinicManagementProject.name}</h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-text-secondary">{clinicManagementProject.description}</p>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-text-secondary">{clinicManagementProject.cardSummary}</p>
             <div className="mt-8 flex flex-wrap gap-x-5 gap-y-3 text-sm">
               {clinicManagementProject.links.map((link) => (
                 <a className="focus-ring font-medium text-text-primary hover:text-cyan" href={link.href} key={link.label} target="_blank" rel="noreferrer">

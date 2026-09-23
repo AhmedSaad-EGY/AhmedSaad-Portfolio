@@ -33,7 +33,7 @@ export default function ProjectsRoute() {
             <SectionHeading
               eyebrow="PROJECTS"
               title="Backend projects with real business workflows."
-              description="Selected source-controlled portfolio content. Detailed technical context is reserved for the Clinic Management Backend case study."
+              description="Selected source-controlled portfolio content. Each project links to the level of technical detail its verified source supports."
             />
           </Container>
         </section>
