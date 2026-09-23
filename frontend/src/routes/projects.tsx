@@ -2,24 +2,15 @@ import { ProjectCard } from '../components/projects/ProjectCard'
 import { AppShell } from '../components/layout/AppShell'
 import { Container } from '../components/ui/Container'
 import { SectionHeading } from '../components/ui/SectionHeading'
-import { absoluteUrl, site, socialImageUrl } from '../app/site'
+import { pageMetadata } from '../app/seo'
+import { site } from '../app/site'
 import { projects } from '../content/projects'
 
 export function meta() {
   const title = `Projects | ${site.name}`
   const description = 'Selected backend engineering projects by Ahmed Mohammed Saad.'
 
-  return [
-    { title },
-    { name: 'description', content: description },
-    { property: 'og:title', content: title },
-    { property: 'og:description', content: description },
-    { property: 'og:image', content: socialImageUrl },
-    { name: 'twitter:card', content: 'summary' },
-    { name: 'twitter:title', content: title },
-    { name: 'twitter:description', content: description },
-    { tagName: 'link', rel: 'canonical', href: absoluteUrl('/projects') },
-  ]
+  return pageMetadata({ title, description, path: '/projects', imagePath: '/og/portfolio.png' })
 }
 
 export default function ProjectsRoute() {

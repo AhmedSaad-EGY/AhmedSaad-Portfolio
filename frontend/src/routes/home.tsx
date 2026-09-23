@@ -1,4 +1,5 @@
-import { absoluteUrl, site, socialImageUrl } from '../app/site'
+import { pageMetadata } from '../app/seo'
+import { site } from '../app/site'
 import { AppShell } from '../components/layout/AppShell'
 import { About } from '../components/sections/About'
 import { ContactSection } from '../components/sections/ContactSection'
@@ -10,19 +11,9 @@ import { Hero } from '../components/sections/Hero'
 
 export function meta() {
   const title = `${site.name} | ${site.role}`
-  const description = 'Backend .NET Developer building reliable APIs and backend systems with ASP.NET Core, SQL Server, and Entity Framework Core.'
+  const description = 'Backend .NET Developer building reliable, secure workflows for scheduling, financial operations, tenant access, and real-time auctions.'
 
-  return [
-    { title },
-    { name: 'description', content: description },
-    { property: 'og:title', content: title },
-    { property: 'og:description', content: description },
-    { property: 'og:image', content: socialImageUrl },
-    { name: 'twitter:card', content: 'summary' },
-    { name: 'twitter:title', content: title },
-    { name: 'twitter:description', content: description },
-    { tagName: 'link', rel: 'canonical', href: absoluteUrl('/') },
-  ]
+  return pageMetadata({ title, description, path: '/', imagePath: '/og/portfolio.png' })
 }
 
 export default function HomeRoute() {

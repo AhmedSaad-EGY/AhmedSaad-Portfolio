@@ -1,5 +1,3 @@
-import logoUrl from '../assets/brand/Logo.png'
-
 declare const __SITE_URL__: string
 
 const configuredSiteUrl = __SITE_URL__.trim() || 'http://localhost:5173'
@@ -26,5 +24,3 @@ export const socialLinks = [
   { label: 'LinkedIn', href: site.links.linkedin },
   { label: 'Email', href: `mailto:${site.email}` },
 ] as const
-
-export const socialImageUrl = new URL(logoUrl, `${site.url}/`).toString()

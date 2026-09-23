@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 
-import { absoluteUrl, site, socialImageUrl } from '../../app/site'
+import { projectMetadata, projectStructuredData } from '../../app/seo'
 import { ArchitectureDiagram } from '../../components/clinic/ArchitectureDiagram'
 import { CaseStudyToc } from '../../components/clinic/CaseStudyToc'
 import { AppShell } from '../../components/layout/AppShell'
@@ -10,36 +10,14 @@ import { clinicCaseStudy } from '../../content/clinic-case-study'
 import { clinicManagementProject } from '../../content/projects'
 
 export function meta() {
-  const title = `Clinic Management Backend | ${site.name}`
-  const description = clinicManagementProject.cardSummary
-
-  return [
-    { title },
-    { name: 'description', content: description },
-    { property: 'og:title', content: title },
-    { property: 'og:description', content: description },
-    { property: 'og:image', content: socialImageUrl },
-    { name: 'twitter:card', content: 'summary' },
-    { name: 'twitter:title', content: title },
-    { name: 'twitter:description', content: description },
-    { tagName: 'link', rel: 'canonical', href: absoluteUrl('/projects/clinic-management') },
-  ]
+  return projectMetadata(clinicManagementProject)
 }
 
 export default function ClinicManagementRoute() {
-  const sourceCodeJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareSourceCode',
-    name: clinicManagementProject.name,
-    codeRepository: clinicManagementProject.links[0].href,
-    programmingLanguage: ['C#'],
-    description: clinicManagementProject.cardSummary,
-  }
-
   return (
     <AppShell>
       <main id="main-content" tabIndex={-1}>
-        <script type="application/ld+json">{JSON.stringify(sourceCodeJsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(projectStructuredData(clinicManagementProject))}</script>
         <section className="page-entry case-hero chapter-section border-b border-border/80 py-16 sm:py-20 lg:py-24" data-chapter="C0">
           <Container className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end lg:gap-16">
             <div>

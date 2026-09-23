@@ -1,4 +1,4 @@
-import portraitUrl from '../../assets/images/ahmed_saad.png'
+import portraitUrl from '../../assets/images/ahmed_saad.webp'
 import { SectionAtmosphere } from '../motion/SectionAtmosphere'
 import { Container } from '../ui/Container'
 import { SectionHeading } from '../ui/SectionHeading'
@@ -18,18 +18,18 @@ export function About() {
         <div className="portrait-composition mx-auto w-full max-w-[21rem] lg:mx-0" data-reveal-portrait>
           <span className="portrait-structure" aria-hidden="true" />
           <div className="portrait-frame">
-            <img src={portraitUrl} alt="Ahmed Mohammed Saad" className="aspect-[4/5] w-full object-cover" loading="lazy" />
+            <img src={portraitUrl} alt="Ahmed Mohammed Saad" width={720} height={900} className="aspect-[4/5] w-full object-cover" loading="lazy" decoding="async" />
           </div>
           <div className="portrait-caption" aria-hidden="true">
             <span>BACKEND</span><span>.NET</span><span>CAIRO</span>
           </div>
         </div>
         <div>
-          <SectionHeading eyebrow="ABOUT" title="Backend systems built around real business rules." />
+          <SectionHeading eyebrow="ABOUT" title="Backend systems built for real business workflows." />
           <div className="mt-7 max-w-3xl space-y-4 text-[1.0625rem] leading-8 text-text-secondary" data-reveal-copy>
-            <p>I’m a Backend .NET Developer focused on building backend systems around real business rules instead of simple CRUD applications.</p>
+            <p>I turn complex requirements into dependable backend workflows, not generic CRUD applications.</p>
             <p>
-              I work primarily with C#, ASP.NET Core, Entity Framework Core, and SQL Server, with hands-on project experience in authentication, authorization, transactional workflows, concurrency, real-time systems, and automated testing.
+              My project work includes appointment scheduling that protects constrained resources, financial workflows with traceability, multi-tenant access controlled by active memberships, and real-time auctions that handle competing updates.
             </p>
           </div>
           <ul className="capability-list mt-9 grid sm:grid-cols-2" aria-label="Engineering focus areas">

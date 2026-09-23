@@ -30,10 +30,10 @@ export function Hero() {
           </h1>
           <p className="mt-5 font-mono text-sm font-medium tracking-[0.12em] text-cyan sm:text-base" data-hero-step="3">Backend .NET Developer</p>
           <p className="mt-8 max-w-xl text-xl font-medium leading-8 text-text-primary sm:text-2xl sm:leading-9" data-hero-step="4">
-            Building reliable APIs and backend systems with ASP.NET Core, SQL Server, and Entity Framework Core.
+            Building backend systems that turn complex business rules into reliable, secure workflows.
           </p>
           <p className="mt-4 max-w-xl leading-7 text-text-secondary" data-hero-step="5">
-            Focused on real business workflows, secure APIs, database design, concurrency, testing, and maintainable backend architecture.
+            From scheduling and financial operations to tenant access and real-time auctions — built with ASP.NET Core, SQL Server, and Entity Framework Core.
           </p>
           <div className="mt-9 flex flex-wrap gap-3" data-hero-step="6">
             <Link className="focus-ring button-primary interactive-cta" data-magnetic to="/projects">

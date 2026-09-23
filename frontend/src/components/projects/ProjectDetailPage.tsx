@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 
+import { projectStructuredData } from '../../app/seo'
 import type { Project } from '../../content/projects'
 import { AppShell } from '../layout/AppShell'
 import { Container } from '../ui/Container'
@@ -11,6 +12,7 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
   return (
     <AppShell>
       <main id="main-content" tabIndex={-1}>
+        <script type="application/ld+json">{JSON.stringify(projectStructuredData(project))}</script>
         <section className="page-entry case-hero chapter-section border-b border-border/80 py-16 sm:py-20 lg:py-24" data-chapter="C1">
           <Container className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end lg:gap-16">
             <div>

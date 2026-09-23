@@ -15,7 +15,8 @@ describe('portfolio project content', () => {
 
   it('keeps source-backed Khidma counts and presentation levels', () => {
     const khidma = projects.find((project) => project.slug === 'khidma')
-    expect(khidma?.highlights).toContain('64 Stored Procedures and 28 Views.')
+    expect(khidma?.cardSummary).toContain('64 stored procedures and 28 reporting views')
+    expect(khidma?.highlights).toContain('Makes reporting query-ready — 28 views for revenue, booking, rating, and dashboard reads.')
     expect(khidma?.presentation.label).toBe('Technical breakdown')
     expect(projects.filter((project) => project.presentation.label === 'Full case study').map((project) => project.slug)).toEqual(['estatehub', 'saiyad'])
   })
@@ -51,5 +52,10 @@ describe('portfolio project content', () => {
     const forbiddenTerms = ['senior', 'polly', 'netarchtest', 'mediatr', 'redis', 'postgresql', 'docker', 'indexed views', 'concurrency-safe']
 
     forbiddenTerms.forEach((term) => expect(content).not.toContain(term))
+
+    const estateHubContent = JSON.stringify(projects.find((project) => project.slug === 'estatehub')).toLowerCase()
+    const saiyadContent = JSON.stringify(projects.find((project) => project.slug === 'saiyad')).toLowerCase()
+    expect(estateHubContent).not.toContain('automated tests')
+    expect(saiyadContent).not.toContain('clean architecture')
   })
 })
