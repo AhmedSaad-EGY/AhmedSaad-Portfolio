@@ -3,6 +3,9 @@ import { useEffect, useRef, useState } from 'react'
 import { apiUrl } from '../../app/api'
 
 const visitorKey = 'portfolio-visitor-id'
+const likePromptSessionKey = 'portfolio-like-prompt-shown'
+const likePromptDelayMs = 10_000
+const likePromptDurationMs = 5_000
 
 type LikeSnapshot = {
   count: number
@@ -33,9 +36,12 @@ export function EngagementLike() {
   const [snapshot, setSnapshot] = useState<LikeSnapshot | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready' | 'saving' | 'error'>('loading')
   const [celebrating, setCelebrating] = useState(false)
+  const [isPromptVisible, setIsPromptVisible] = useState(false)
   const [notice, setNotice] = useState('Loading portfolio appreciation count.')
   const visitorIdRef = useRef('')
   const celebrationTimerRef = useRef<number | null>(null)
+  const promptTimerRef = useRef<number | null>(null)
+  const promptDismissTimerRef = useRef<number | null>(null)
 
   useEffect(() => {
     let active = true
@@ -73,8 +79,65 @@ export function EngagementLike() {
       if (celebrationTimerRef.current !== null) {
         window.clearTimeout(celebrationTimerRef.current)
       }
+      if (promptTimerRef.current !== null) {
+        window.clearTimeout(promptTimerRef.current)
+      }
+      if (promptDismissTimerRef.current !== null) {
+        window.clearTimeout(promptDismissTimerRef.current)
+      }
     }
   }, [])
+
+  useEffect(() => {
+    if (status !== 'ready' || !snapshot || snapshot.liked || window.sessionStorage.getItem(likePromptSessionKey)) {
+      return
+    }
+
+    let remainingDelay = likePromptDelayMs
+    let startedAt = 0
+
+    function clearPromptTimer() {
+      if (promptTimerRef.current !== null) {
+        window.clearTimeout(promptTimerRef.current)
+        promptTimerRef.current = null
+      }
+    }
+
+    function showPrompt() {
+      window.sessionStorage.setItem(likePromptSessionKey, 'true')
+      setIsPromptVisible(true)
+      promptDismissTimerRef.current = window.setTimeout(() => setIsPromptVisible(false), likePromptDurationMs)
+    }
+
+    function schedulePrompt() {
+      if (document.visibilityState !== 'visible' || promptTimerRef.current !== null) {
+        return
+      }
+
+      startedAt = Date.now()
+      promptTimerRef.current = window.setTimeout(showPrompt, remainingDelay)
+    }
+
+    function handleVisibilityChange() {
+      if (document.visibilityState === 'visible') {
+        schedulePrompt()
+        return
+      }
+
+      if (startedAt > 0) {
+        remainingDelay = Math.max(0, remainingDelay - (Date.now() - startedAt))
+      }
+      clearPromptTimer()
+    }
+
+    schedulePrompt()
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    return () => {
+      clearPromptTimer()
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  }, [snapshot, status])
 
   async function toggleLike() {
     if (!snapshot || status === 'saving') {
@@ -82,6 +145,16 @@ export function EngagementLike() {
     }
 
     const nextLiked = !snapshot.liked
+    window.sessionStorage.setItem(likePromptSessionKey, 'true')
+    setIsPromptVisible(false)
+    if (promptTimerRef.current !== null) {
+      window.clearTimeout(promptTimerRef.current)
+      promptTimerRef.current = null
+    }
+    if (promptDismissTimerRef.current !== null) {
+      window.clearTimeout(promptDismissTimerRef.current)
+      promptDismissTimerRef.current = null
+    }
     if (celebrationTimerRef.current !== null) {
       window.clearTimeout(celebrationTimerRef.current)
       celebrationTimerRef.current = null
@@ -125,6 +198,11 @@ export function EngagementLike() {
 
   return (
     <aside className="engagement-like" aria-label="Portfolio appreciation">
+      {isPromptVisible && (
+        <p className="engagement-like__prompt" aria-hidden="true">
+          Enjoying the portfolio? Leave a like.
+        </p>
+      )}
       <button
         className="focus-ring engagement-like__button"
         type="button"
