@@ -24,7 +24,7 @@ export function ProjectCard({ project, featured = false, sequence, revealOrder =
         <div className="project-card__copy">
           <h3 className={`${featured ? 'text-3xl sm:text-4xl' : 'text-2xl'} mt-6 font-semibold tracking-tight text-text-primary`}>{project.name}</h3>
           <p className="mt-5 leading-7 text-text-secondary">{project.cardSummary}</p>
-          <ul className="mt-6 flex flex-wrap gap-2" aria-label={`${project.name} technologies`}>
+          <ul className="project-card__technologies mt-6 flex flex-wrap gap-2" aria-label={`${project.name} technologies`}>
             {project.technologies.slice(0, featured ? 7 : 5).map((technology) => (
               <li className="tech-tag" key={technology}>{technology}</li>
             ))}
@@ -50,7 +50,7 @@ export function ProjectCard({ project, featured = false, sequence, revealOrder =
         </figure>
       </div>
       <div className="project-card__actions">
-        <div className="flex flex-wrap gap-2 text-sm">
+        <div className="project-card__resources flex flex-wrap gap-2 text-sm">
           {project.links.map((link) => (
             <a className="focus-ring project-resource-link" href={link.href} key={link.label} target="_blank" rel="noreferrer">
               {link.label} <span className="project-action__arrow" aria-hidden="true">↗</span>

@@ -27,7 +27,7 @@ export type Project = {
 
 export const clinicManagementProject: Project = {
   slug: 'clinic-management',
-  name: 'Clinic Management Backend',
+  name: 'Clinic Management',
   subtitle: 'Production-oriented backend',
   cardSummary: 'Clinic management backend that protects appointment resources, keeps financial actions traceable, and handles competing staff updates without silent data loss.',
   overview: 'A modular-monolith clinic management backend built around scheduling, financial workflows, secure access, and automated testing.',
@@ -39,10 +39,10 @@ export const clinicManagementProject: Project = {
   ],
   technologies: ['.NET 10', 'ASP.NET Core', 'EF Core', 'SQL Server', 'ASP.NET Core Identity', 'xUnit', 'Clean Architecture'],
   highlights: ['Protects constrained appointment resources — transactionally revalidating doctor, room, and medical-device rules.', 'Keeps financial actions traceable — connected shifts, allocations, approvals, refunds, and audit history.', 'Avoids silent data loss during conflicting edits — SQL Server rowversion with explicit conflict responses.'],
-  links: [{ label: 'GitHub', href: 'https://github.com/AhmedSaad-EGY/Clinic_Backend' }, { label: 'API Docs', href: 'https://uneraclinic.runasp.net/swagger/index.html' }],
+  links: [{ label: 'GitHub', href: 'https://github.com/AhmedSaad-EGY/Clinic_Backend' }, { label: 'APIs', href: 'https://uneraclinic.runasp.net/swagger/index.html' }],
   featured: true,
   presentation: { label: 'Flagship case study', actionLabel: 'Case study', technicalSummary: [{ label: 'Architecture', value: 'Clean Architecture' }, { label: 'Runtime', value: '.NET 10' }, { label: 'Data', value: 'EF Core · SQL Server' }, { label: 'Testing', value: 'xUnit · Integration' }] },
-  visual: { src: clinicVisual, alt: 'Project visual concept for Clinic Management Backend, showing a clinic dashboard design.', width: 1440, height: 810, fit: 'cover' },
+  visual: { src: clinicVisual, alt: 'Project visual concept for Clinic Management, showing a clinic dashboard design.', width: 1440, height: 810, fit: 'cover' },
   caseStudyPath: '/projects/clinic-management',
 }
 

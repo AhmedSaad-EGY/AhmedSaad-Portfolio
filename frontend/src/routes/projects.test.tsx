@@ -13,7 +13,7 @@ describe('projects route', () => {
     )
 
     expect(screen.getByRole('heading', { level: 2, name: 'Backend projects with real business workflows.' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Clinic Management Backend' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Clinic Management' })).toBeInTheDocument()
     expect(screen.getAllByRole('link', { name: 'Case study' }).map((link) => link.getAttribute('href'))).toEqual([
       '/projects/clinic-management',
       '/projects/estatehub',

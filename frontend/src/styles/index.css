@@ -794,7 +794,13 @@
   .stack-tools { align-items: flex-start; flex-direction: column; gap: 0.8rem; }
   .project-card__featured-grid { grid-template-columns: 1fr; gap: 0; }
   .project-card-featured .project-card__visual { order: -1; }
-  .project-card__actions { align-items: flex-start; flex-direction: column; }
+  .project-card__technologies { display: none; }
+  .project-card__actions { align-items: stretch; flex-direction: row; gap: 0.25rem; padding-top: 1.25rem; }
+  .project-card__resources { min-width: 0; flex-wrap: nowrap; gap: 0.25rem; }
+  .project-card__actions .project-resource-link,
+  .project-card__actions .project-case-study { min-width: 44px; min-height: 44px; justify-content: center; padding-inline: 0.25rem; white-space: nowrap; }
+  .project-card__actions .project-case-study { flex-shrink: 0; }
+  .project-card__actions .project-action__arrow { display: none; }
   .project-highlights { display: none; }
   .project-card__visual,
   .project-card-featured .project-card__visual,

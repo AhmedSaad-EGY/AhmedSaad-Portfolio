@@ -12,9 +12,9 @@ describe('Clinic Management case study route', () => {
       </MemoryRouter>,
     )
 
-    expect(screen.getByRole('heading', { level: 1, name: 'Clinic Management Backend' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: 'Clinic Management' })).toBeInTheDocument()
     expect(screen.getByText('Modular monolith with Clean Architecture boundaries')).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'API Docs' })).toHaveClass('project-resource-link')
+    expect(screen.getByRole('link', { name: 'APIs' })).toHaveClass('project-resource-link')
     expect(screen.queryByText(/Polly/i)).not.toBeInTheDocument()
     expect(document.querySelector('[data-scroll-progress]')).toBeInTheDocument()
     for (const id of ['architecture', 'scheduling', 'concurrency', 'financial-workflows', 'security', 'testing', 'lessons']) {
