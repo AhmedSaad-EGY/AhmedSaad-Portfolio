@@ -1,6 +1,9 @@
-import { describe, expect, it } from 'vitest'
+import { act } from 'react'
+import { hydrateRoot } from 'react-dom/client'
+import { renderToString } from 'react-dom/server'
+import { describe, expect, it, vi } from 'vitest'
 
-import { selectActiveSection, type SectionSnapshot } from './useActiveSection'
+import { selectActiveSection, useActiveSection, type SectionSnapshot } from './useActiveSection'
 
 const ids = ['home', 'about', 'skills', 'projects', 'experience', 'contact'] as const
 
@@ -9,6 +12,36 @@ function section(id: (typeof ids)[number], top: number, bottom: number, isInters
 }
 
 describe('active section selection', () => {
+  it('hydrates a hash URL with the same initial section as prerendered HTML', async () => {
+    function CurrentSection() {
+      return <span>{useActiveSection(ids)}</span>
+    }
+
+    const previousHash = window.location.hash
+    vi.stubGlobal('window', undefined)
+    const serverHtml = renderToString(<CurrentSection />)
+    vi.unstubAllGlobals()
+    window.location.hash = '#skills'
+
+    const container = document.createElement('div')
+    container.innerHTML = serverHtml
+    document.body.append(container)
+    const onRecoverableError = vi.fn()
+    let root: ReturnType<typeof hydrateRoot> | undefined
+
+    try {
+      await act(async () => {
+        root = hydrateRoot(container, <CurrentSection />, { onRecoverableError })
+      })
+      expect(serverHtml).toContain('home')
+      expect(onRecoverableError).not.toHaveBeenCalled()
+    } finally {
+      await act(async () => root?.unmount())
+      container.remove()
+      window.location.hash = previousHash
+    }
+  })
+
   it('always selects Home at the top', () => {
     const selected = selectActiveSection(ids, [section('home', -20, 700), section('about', 690, 1300)], {
       scrollY: 0,

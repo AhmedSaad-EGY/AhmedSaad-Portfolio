@@ -25,6 +25,7 @@ export default function ProjectsRoute() {
               eyebrow="PROJECTS"
               title="Backend projects with real business workflows."
               description="Selected source-controlled portfolio content. Each project links to the level of technical detail its verified source supports."
+              level={1}
             />
           </Container>
         </section>

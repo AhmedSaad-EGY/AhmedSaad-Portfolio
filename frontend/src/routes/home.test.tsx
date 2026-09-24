@@ -46,5 +46,9 @@ describe('home route', () => {
     for (const id of ['home', 'about', 'projects', 'skills', 'experience', 'contact']) {
       expect(document.getElementById(id)).toHaveAttribute('data-scroll-anchor')
     }
+    for (const section of container.querySelectorAll('[aria-labelledby]')) {
+      const heading = document.getElementById(section.getAttribute('aria-labelledby') ?? '')
+      expect(heading?.tagName).toMatch(/^H[1-6]$/)
+    }
   })
 })

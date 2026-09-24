@@ -20,5 +20,9 @@ describe('Clinic Management case study route', () => {
     for (const id of ['architecture', 'scheduling', 'concurrency', 'financial-workflows', 'security', 'testing', 'lessons']) {
       expect(document.getElementById(id)).toHaveAttribute('data-scroll-anchor')
     }
+    for (const section of document.querySelectorAll('[aria-labelledby]')) {
+      const heading = document.getElementById(section.getAttribute('aria-labelledby') ?? '')
+      expect(heading?.tagName).toMatch(/^H[1-6]$/)
+    }
   })
 })

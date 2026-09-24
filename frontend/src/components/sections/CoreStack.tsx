@@ -17,7 +17,7 @@ export function CoreStack() {
     <section id="skills" data-scroll-anchor data-reveal data-chapter="03" className="stack-section chapter-section border-y border-border/80 py-16 sm:py-24 lg:py-28" aria-labelledby="stack-title">
       <SectionAtmosphere scene="stack" />
       <Container>
-        <SectionHeading eyebrow="CORE STACK" title="Tools and practices used across backend work." />
+        <SectionHeading id="stack-title" eyebrow="CORE STACK" title="Tools and practices used across backend work." />
         <div className="stack-grid mt-12">
           {groups.map(([name, items], index) => (
             <article className={`stack-group stack-group--${index + 1}`} key={name} data-reveal-item data-reveal-order={index} data-stack-node>

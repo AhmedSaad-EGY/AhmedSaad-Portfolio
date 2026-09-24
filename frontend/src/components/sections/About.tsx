@@ -25,7 +25,7 @@ export function About() {
           </div>
         </div>
         <div>
-          <SectionHeading eyebrow="ABOUT" title="Backend systems built for real business workflows." />
+          <SectionHeading id="about-title" eyebrow="ABOUT" title="Backend systems built for real business workflows." />
           <div className="mt-7 max-w-3xl space-y-4 text-[1.0625rem] leading-8 text-text-secondary" data-reveal-copy>
             <p>I turn complex requirements into dependable backend workflows, not generic CRUD applications.</p>
             <p>

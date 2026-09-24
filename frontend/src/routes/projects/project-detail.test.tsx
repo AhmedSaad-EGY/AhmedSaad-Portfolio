@@ -12,11 +12,15 @@ describe('project detail routes', () => {
     ['Saiyad', SaiyadRoute, 'Real-time auctions'],
     ['Khidma', KhidmaRoute, '64 procedures · 28 views'],
   ])('renders the source-backed %s detail page', (name, Route, summary) => {
-    render(<MemoryRouter><Route /></MemoryRouter>)
+    const { container } = render(<MemoryRouter><Route /></MemoryRouter>)
 
     expect(screen.getByRole('heading', { level: 1, name })).toBeInTheDocument()
     expect(screen.getByText(summary)).toBeInTheDocument()
     expect(screen.getByText('What the source demonstrates.')).toBeInTheDocument()
     expect(within(screen.getByRole('main')).getByRole('link', { name: 'GitHub' })).toHaveClass('project-resource-link')
+    for (const section of container.querySelectorAll('[aria-labelledby]')) {
+      const heading = document.getElementById(section.getAttribute('aria-labelledby') ?? '')
+      expect(heading?.tagName).toMatch(/^H[1-6]$/)
+    }
   })
 })

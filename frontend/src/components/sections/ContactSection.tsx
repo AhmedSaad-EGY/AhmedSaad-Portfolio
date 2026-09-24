@@ -57,6 +57,7 @@ export function ContactSection() {
       <Container className="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(26rem,1fr)] lg:gap-20">
         <div>
           <SectionHeading
+            id="contact-title"
             eyebrow="CONTACT"
             title="Let’s Build Something Reliable."
             description="Open to Backend .NET Developer opportunities, software engineering collaborations, and backend-focused projects."

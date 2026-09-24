@@ -57,14 +57,7 @@ export function useActiveSection<T extends string>(
   sectionIds: readonly T[],
   { enabled = true, rootMargin = '-30% 0px -60% 0px', activationRatio = 0.35 }: ActiveSectionOptions = {},
 ) {
-  const [activeSection, setActiveSection] = useState<T | null>(() => {
-    if (!enabled) {
-      return null
-    }
-
-    const hashId = typeof window === 'undefined' ? '' : window.location.hash.slice(1)
-    return sectionIds.find((id) => id === hashId) ?? sectionIds[0] ?? null
-  })
+  const [activeSection, setActiveSection] = useState<T | null>(enabled ? sectionIds[0] ?? null : null)
   const sectionKey = sectionIds.join('|')
 
   useEffect(() => {
@@ -73,6 +66,12 @@ export function useActiveSection<T extends string>(
     }
 
     const ids = sectionKey.split('|').filter(Boolean) as T[]
+    const hashFrame = window.requestAnimationFrame(() => {
+      const hashId = window.location.hash.slice(1) as T
+      if (ids.includes(hashId)) {
+        setActiveSection(hashId)
+      }
+    })
     const elements = ids
       .map((id) => document.getElementById(id))
       .filter((element): element is HTMLElement => element !== null)
@@ -89,7 +88,10 @@ export function useActiveSection<T extends string>(
 
       updateFromHash()
       window.addEventListener('hashchange', updateFromHash)
-      return () => window.removeEventListener('hashchange', updateFromHash)
+      return () => {
+        window.cancelAnimationFrame(hashFrame)
+        window.removeEventListener('hashchange', updateFromHash)
+      }
     }
 
     const intersectingIds = new Set<T>()
@@ -134,7 +136,10 @@ export function useActiveSection<T extends string>(
     )
 
     elements.forEach((element) => observer.observe(element))
-    return () => observer.disconnect()
+    return () => {
+      window.cancelAnimationFrame(hashFrame)
+      observer.disconnect()
+    }
   }, [activationRatio, enabled, rootMargin, sectionKey])
 
   return enabled ? activeSection : null

@@ -44,24 +44,24 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
 
         <Container className="case-article max-w-5xl space-y-16 py-14 lg:py-20">
           <section className="case-section case-section--intro" data-reveal data-case-step="00" aria-labelledby="overview-title">
-            <SectionHeading eyebrow="OVERVIEW" title="A source-backed engineering story." />
-            <p id="overview-title" className="mt-6 max-w-3xl text-lg leading-8 text-text-secondary" data-reveal-copy>{project.overview}</p>
+            <SectionHeading id="overview-title" eyebrow="OVERVIEW" title="A source-backed engineering story." />
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-text-secondary" data-reveal-copy>{project.overview}</p>
           </section>
           <section className="case-section" data-reveal data-case-step="01" aria-labelledby="signals-title">
-            <SectionHeading eyebrow="ENGINEERING SIGNALS" title="What the source demonstrates." />
-            <ul id="signals-title" className="project-detail-signals mt-8" aria-label={`${project.name} engineering signals`}>
+            <SectionHeading id="signals-title" eyebrow="ENGINEERING SIGNALS" title="What the source demonstrates." />
+            <ul className="project-detail-signals mt-8" aria-label={`${project.name} engineering signals`}>
               {project.engineeringSignals.map((signal, index) => <li key={signal}><span>{String(index + 1).padStart(2, '0')}</span>{signal}</li>)}
             </ul>
           </section>
           <section className="case-section" data-reveal data-case-step="02" aria-labelledby="challenges-title">
-            <SectionHeading eyebrow="CHALLENGES & SOLUTIONS" title="Technical decisions tied to real workflows." />
-            <ol id="challenges-title" className="project-detail-challenges mt-8">
+            <SectionHeading id="challenges-title" eyebrow="CHALLENGES & SOLUTIONS" title="Technical decisions tied to real workflows." />
+            <ol className="project-detail-challenges mt-8">
               {project.challenges.map((item, index) => <li key={item.challenge}><span>{String(index + 1).padStart(2, '0')}</span><div><h2>{item.challenge}</h2><p>{item.solution}</p></div></li>)}
             </ol>
           </section>
           <section className="case-section" data-reveal data-case-step="03" aria-labelledby="stack-title">
-            <SectionHeading eyebrow="VERIFIED STACK" title="Technology used in this project." />
-            <ul id="stack-title" className="mt-8 flex flex-wrap gap-2" aria-label={`${project.name} technologies`}>
+            <SectionHeading id="stack-title" eyebrow="VERIFIED STACK" title="Technology used in this project." />
+            <ul className="mt-8 flex flex-wrap gap-2" aria-label={`${project.name} technologies`}>
               {project.technologies.map((technology) => <li className="tech-tag" key={technology}>{technology}</li>)}
             </ul>
           </section>

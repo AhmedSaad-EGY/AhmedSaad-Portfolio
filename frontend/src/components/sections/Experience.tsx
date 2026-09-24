@@ -8,7 +8,7 @@ export function Experience() {
     <section id="experience" data-scroll-anchor data-reveal data-chapter="04" className="experience-section chapter-section border-y border-border/80 py-16 sm:py-24 lg:py-28" aria-labelledby="experience-title">
       <SectionAtmosphere scene="experience" />
       <Container>
-        <SectionHeading eyebrow="EXPERIENCE" title="Professional and training experience." />
+        <SectionHeading id="experience-title" eyebrow="EXPERIENCE" title="Professional and training experience." />
         <div className="timeline mt-12">
           {experience.map((item, index) => (
             <article className="timeline-entry" key={`${item.company}-${item.role}`} data-reveal-item data-reveal-order={index}>

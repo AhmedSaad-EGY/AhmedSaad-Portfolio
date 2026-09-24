@@ -12,7 +12,8 @@ describe('projects route', () => {
       </MemoryRouter>,
     )
 
-    expect(screen.getByRole('heading', { level: 2, name: 'Backend projects with real business workflows.' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: 'Backend projects with real business workflows.' })).toBeInTheDocument()
+    expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1)
     expect(screen.getByRole('heading', { name: 'Clinic Management' })).toBeInTheDocument()
     expect(screen.getAllByRole('link', { name: 'Case study' }).map((link) => link.getAttribute('href'))).toEqual([
       '/projects/clinic-management',

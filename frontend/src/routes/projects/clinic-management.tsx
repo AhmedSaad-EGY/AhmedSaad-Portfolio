@@ -54,11 +54,11 @@ export default function ClinicManagementRoute() {
           </aside>
           <article className="case-article min-w-0 space-y-16">
             <section className="case-section case-section--intro" aria-labelledby="overview-title" data-reveal data-case-step="00">
-              <SectionHeading eyebrow="OVERVIEW" title="A focused backend case study." />
+              <SectionHeading id="overview-title" eyebrow="OVERVIEW" title="A focused backend case study." />
               <p className="mt-6 max-w-3xl text-lg leading-8 text-text-secondary" data-reveal-copy>{clinicCaseStudy.overview}</p>
             </section>
             <section id="architecture" data-scroll-anchor className="case-section" aria-labelledby="architecture-title" data-reveal data-case-step="01">
-              <SectionHeading eyebrow="ARCHITECTURE" title="Clean Architecture & System Flow" description={clinicCaseStudy.architecture.title} />
+              <SectionHeading id="architecture-title" eyebrow="ARCHITECTURE" title="Clean Architecture & System Flow" description={clinicCaseStudy.architecture.title} />
               <div className="mt-8">
                 <ArchitectureDiagram />
               </div>

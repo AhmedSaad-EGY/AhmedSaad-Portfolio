@@ -11,8 +11,8 @@ type ProjectEvidenceProps = {
 export function ProjectEvidence({ project, id, step }: ProjectEvidenceProps) {
   return (
     <section className="case-section" id={id} data-scroll-anchor aria-labelledby={`${id}-title`} data-reveal data-case-step={step}>
-      <SectionHeading eyebrow="ENGINEERING EVIDENCE" title="Evidence behind each engineering claim." />
-      <ul id={`${id}-title`} className="project-evidence mt-8" aria-label={`${project.name} engineering evidence`}>
+      <SectionHeading id={`${id}-title`} eyebrow="ENGINEERING EVIDENCE" title="Evidence behind each engineering claim." />
+      <ul className="project-evidence mt-8" aria-label={`${project.name} engineering evidence`}>
         {project.highlights.map((highlight, index) => (
           <li key={highlight}>
             <span>{String(index + 1).padStart(2, '0')}</span>

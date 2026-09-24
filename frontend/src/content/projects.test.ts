@@ -27,7 +27,7 @@ describe('portfolio project content', () => {
       'https://uneraclinic.runasp.net/swagger/index.html',
       'https://github.com/AhmedSaad-EGY/EStateHub',
       'https://e-statehub.vercel.app',
-      'https://estatehub.runasp.net',
+      'https://estatehub.runasp.net/swagger/index.html',
       'https://github.com/AhmedSaad-EGY/Saiyad',
       'https://saiyad-eg.vercel.app',
       'https://github.com/AhmedSaad-EGY/Khidma',

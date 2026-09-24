@@ -145,7 +145,7 @@ export function FeaturedProjects() {
       <SectionAtmosphere scene="projects" />
       <Container>
         <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-          <SectionHeading eyebrow="FEATURED PROJECTS" title="Backend work grounded in real workflows." />
+          <SectionHeading id="featured-projects-title" eyebrow="FEATURED PROJECTS" title="Backend work grounded in real workflows." />
           <Link className="focus-ring shrink-0 whitespace-nowrap text-sm font-semibold text-cyan hover:text-text-primary" data-magnetic to="/projects" data-reveal-item data-reveal-order={0}>
             View all projects →
           </Link>
