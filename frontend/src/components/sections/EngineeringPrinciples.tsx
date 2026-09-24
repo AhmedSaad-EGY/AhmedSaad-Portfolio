@@ -5,7 +5,7 @@ import { SectionHeading } from '../ui/SectionHeading'
 
 export function EngineeringPrinciples() {
   return (
-    <section data-reveal data-chapter="05" className="principles-section chapter-section py-16 sm:py-24 lg:py-28" aria-labelledby="principles-title">
+    <section data-reveal data-chapter="06" className="principles-section chapter-section py-16 sm:py-24 lg:py-28" aria-labelledby="principles-title">
       <SectionAtmosphere scene="principles" />
       <Container>
         <SectionHeading id="principles-title" eyebrow="ENGINEERING PRINCIPLES" title="How I Approach Backend Engineering" />

@@ -15,6 +15,7 @@ describe('header navigation state', () => {
 
     expect(screen.getByRole('link', { name: 'Home' })).toHaveAttribute('aria-current', 'location')
     expect(screen.getByRole('link', { name: 'Projects' })).toHaveAttribute('href', '#projects')
+    expect(screen.getByRole('link', { name: 'Certificates' })).toHaveAttribute('href', '#certificates')
     expect(screen.getByRole('link', { name: 'GitHub' })).toHaveAttribute('href', 'https://github.com/AhmedSaad-EGY')
     expect(screen.getByRole('link', { name: 'LinkedIn' })).toHaveAttribute('href', 'https://www.linkedin.com/in/ahmed-mohamed-saad-b57695356/')
     expect(screen.getByRole('link', { name: 'Resume' })).toHaveAttribute('href', 'https://drive.google.com/file/d/1SAC15_6P-STkrfgnyMSiBScNMmcF8xLz')

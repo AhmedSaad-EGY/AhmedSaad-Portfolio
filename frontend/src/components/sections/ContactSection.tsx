@@ -52,7 +52,7 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" data-scroll-anchor data-reveal data-chapter="06" className="contact-section chapter-section border-t border-border/80 py-16 sm:py-24 lg:py-28" aria-labelledby="contact-title">
+    <section id="contact" data-scroll-anchor data-reveal data-chapter="07" className="contact-section chapter-section border-t border-border/80 py-16 sm:py-24 lg:py-28" aria-labelledby="contact-title">
       <SectionAtmosphere scene="contact" />
       <Container className="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(26rem,1fr)] lg:gap-20">
         <div>

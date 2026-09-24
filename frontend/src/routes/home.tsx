@@ -2,6 +2,7 @@ import { pageMetadata } from '../app/seo'
 import { site } from '../app/site'
 import { AppShell } from '../components/layout/AppShell'
 import { About } from '../components/sections/About'
+import { Certificates } from '../components/sections/Certificates'
 import { ContactSection } from '../components/sections/ContactSection'
 import { CoreStack } from '../components/sections/CoreStack'
 import { EngineeringPrinciples } from '../components/sections/EngineeringPrinciples'
@@ -25,6 +26,7 @@ export default function HomeRoute() {
         <FeaturedProjects />
         <CoreStack />
         <Experience />
+        <Certificates />
         <EngineeringPrinciples />
         <ContactSection />
       </main>

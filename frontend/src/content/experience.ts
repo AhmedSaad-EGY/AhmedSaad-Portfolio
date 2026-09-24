@@ -13,7 +13,7 @@ export const experience = [
   {
     company: 'Digital Egypt Pioneers Initiative (DEPI)',
     role: 'Full Stack .NET Web Developer Trainee',
-    period: 'Nov 2025 – Jun 2026',
+    period: 'Nov 2025 – Jul 2026',
     location: '',
     bullets: [
       'Completed intensive training in backend engineering focusing on ASP.NET Core REST APIs, EF Core, SQL Server, JWT authentication, and SOLID principles.',

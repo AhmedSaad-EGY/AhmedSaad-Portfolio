@@ -18,6 +18,7 @@ describe('mobile navigation', () => {
     await user.click(trigger)
 
     expect(screen.getByRole('dialog', { name: 'Main navigation' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Certificates' })).toHaveAttribute('href', '#certificates')
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
     expect(document.body.style.overflow).toBe('hidden')
 
