@@ -14,7 +14,7 @@ export function Footer() {
           <p className="mt-4 text-sm text-text-secondary">{site.role}</p>
           <p className="mt-1 text-sm text-text-muted">Cairo, Egypt</p>
         </div>
-        <div className="flex flex-wrap gap-x-5 gap-y-3 text-sm">
+        <div className="footer-links flex flex-wrap gap-x-5 gap-y-3 text-sm">
           {socialLinks.map((link) => (
             <a className="focus-ring text-text-secondary hover:text-cyan" href={link.href} key={link.label}>
               {link.label}

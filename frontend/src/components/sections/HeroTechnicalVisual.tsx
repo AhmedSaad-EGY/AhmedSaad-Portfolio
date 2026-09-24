@@ -10,7 +10,7 @@ const safeguards = ['Security', 'Concurrency', 'Testing'] as const
 export function HeroTechnicalVisual() {
   return (
     <div className="hero-visual-parallax">
-      <div className="system-visual" aria-label="Backend request flow and engineering safeguards" data-hero-step="7" data-pointer-surface>
+      <div className="system-visual" role="group" aria-label="Backend request flow and engineering safeguards" data-hero-step="7" data-pointer-surface>
       <span className="system-visual__spotlight" aria-hidden="true" />
       <div className="system-visual__header">
         <div>

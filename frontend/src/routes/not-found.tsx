@@ -2,13 +2,12 @@ import { Link } from 'react-router'
 
 import { AppShell } from '../components/layout/AppShell'
 import { Container } from '../components/ui/Container'
-import { absoluteUrl, site } from '../app/site'
+import { site } from '../app/site'
 
 export function meta() {
   return [
     { title: `Page not found | ${site.name}` },
     { name: 'robots', content: 'noindex' },
-    { tagName: 'link', rel: 'canonical', href: absoluteUrl('/') },
   ]
 }
 

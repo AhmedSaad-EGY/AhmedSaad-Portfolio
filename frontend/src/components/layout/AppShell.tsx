@@ -11,17 +11,17 @@ import { Header } from './Header'
 export function AppShell({ children }: PropsWithChildren) {
   return (
     <div className="app-shell min-h-screen overflow-x-clip bg-bg text-text-primary">
-      <a className="skip-link" href="#main-content">
+      <a className="skip-link focus-ring" href="#main-content">
         Skip to content
       </a>
       <AmbientBackdrop />
       <InteractionController />
       <MotionController />
       <ScrollProgress />
-      <EngagementLike />
       <Header />
       {children}
       <Footer />
+      <EngagementLike />
     </div>
   )
 }

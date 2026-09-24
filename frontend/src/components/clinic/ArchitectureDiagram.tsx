@@ -8,7 +8,7 @@ export function ArchitectureDiagram() {
         <p className="section-eyebrow">DEPENDENCY DIRECTION</p>
         <p>Framework and delivery details point toward the application and domain boundaries.</p>
       </div>
-      <div className="architecture-map" aria-label="Clinic Clean Architecture dependency direction">
+      <div className="architecture-map" role="group" aria-label="Clinic Clean Architecture dependency direction">
         <div className="architecture-node architecture-node--api" data-architecture-node="api"><span>01</span><strong>API</strong><small>HTTP contracts</small></div>
         <span className="architecture-arrow architecture-arrow--right" data-architecture-arrow="api-application" aria-hidden="true">→</span>
         <div className="architecture-node architecture-node--application" data-architecture-node="application"><span>02</span><strong>Application</strong><small>Use-case boundaries</small></div>

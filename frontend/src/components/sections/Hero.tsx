@@ -21,7 +21,7 @@ export function Hero() {
       <span className="hero-flow-field" aria-hidden="true" />
       <span className="hero-breath" aria-hidden="true" />
       <span className="hero-pointer-light" aria-hidden="true" />
-      <Container className="grid min-h-[calc(100svh-4.25rem)] items-center gap-12 py-16 sm:py-20 lg:grid-cols-[minmax(0,1.15fr)_minmax(23rem,0.85fr)] lg:gap-12 lg:py-24">
+      <Container className="hero-layout grid min-h-[calc(100svh-4.25rem)] items-center gap-12 py-16 sm:py-20 lg:grid-cols-[minmax(0,1.15fr)_minmax(23rem,0.85fr)] lg:gap-12 lg:py-24">
         <div className="relative z-10">
           <p className="section-eyebrow" data-hero-step="1">BACKEND ENGINEERING · CAIRO, EGYPT</p>
           <h1 id="hero-title" data-hero-step="2" className="hero-title mt-6 max-w-4xl font-semibold leading-[0.98] tracking-[-0.05em] text-text-primary" aria-label="Ahmed Mohammed Saad">

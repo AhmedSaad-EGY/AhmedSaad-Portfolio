@@ -216,7 +216,7 @@ export function FeaturedProjects() {
             >
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
             </button>
-            <div className="project-carousel__dots" aria-label="Choose a project">
+            <div className="project-carousel__dots" role="group" aria-label="Choose a project">
               {projects.map((project, index) => (
                 <button
                   className="project-carousel__dot focus-ring"

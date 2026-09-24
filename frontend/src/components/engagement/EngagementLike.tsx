@@ -199,8 +199,6 @@ export function EngagementLike() {
     }
   }
 
-  const isUnavailable = status === 'error'
-
   return (
     <>
       <MobileDock
@@ -234,7 +232,6 @@ export function EngagementLike() {
           <span className="engagement-like__text" aria-hidden="true">{snapshot?.liked ? 'Liked' : 'Like'}</span>
           <span className="engagement-like__count" aria-hidden="true">{likeCountLabel(snapshot)}</span>
         </button>
-        <span className="engagement-like__label" aria-hidden="true">{isUnavailable ? 'OFFLINE' : 'APPRECIATE'}</span>
       </aside>
       <span className="sr-only" aria-live="polite">{notice}</span>
     </>
