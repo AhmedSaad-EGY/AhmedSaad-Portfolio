@@ -8,6 +8,7 @@ const tocItems = [
     number: `0${index + 1}`,
     label: section.title,
   })),
+  { id: 'engineering-evidence', number: '07', label: 'Evidence Behind Each Claim' },
 ]
 
 const tocSectionIds = tocItems.map((item) => item.id)

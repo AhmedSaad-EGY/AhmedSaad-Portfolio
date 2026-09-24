@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { projectStructuredData } from '../../app/seo'
 import type { Project } from '../../content/projects'
 import { AppShell } from '../layout/AppShell'
+import { ProjectEvidence } from '../projects/ProjectEvidence'
 import { Container } from '../ui/Container'
 import { SectionHeading } from '../ui/SectionHeading'
 
@@ -64,6 +65,7 @@ export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
               {project.technologies.map((technology) => <li className="tech-tag" key={technology}>{technology}</li>)}
             </ul>
           </section>
+          <ProjectEvidence project={project} id="engineering-evidence" step="04" />
         </Container>
       </main>
     </AppShell>

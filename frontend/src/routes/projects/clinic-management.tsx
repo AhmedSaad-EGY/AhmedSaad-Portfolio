@@ -4,6 +4,7 @@ import { projectMetadata, projectStructuredData } from '../../app/seo'
 import { ArchitectureDiagram } from '../../components/clinic/ArchitectureDiagram'
 import { CaseStudyToc } from '../../components/clinic/CaseStudyToc'
 import { AppShell } from '../../components/layout/AppShell'
+import { ProjectEvidence } from '../../components/projects/ProjectEvidence'
 import { Container } from '../../components/ui/Container'
 import { SectionHeading } from '../../components/ui/SectionHeading'
 import { clinicCaseStudy } from '../../content/clinic-case-study'
@@ -71,6 +72,7 @@ export default function ClinicManagementRoute() {
                 <p className="mt-5 max-w-3xl text-[1.0625rem] leading-8 text-text-secondary" data-reveal-copy>{section.body}</p>
               </section>
             ))}
+            <ProjectEvidence project={clinicManagementProject} id="engineering-evidence" step="08" />
           </article>
         </Container>
       </main>

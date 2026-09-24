@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type TouchEvent } from 'react'
 import { Link } from 'react-router'
 
 import { projects } from '../../content/projects'
@@ -10,6 +10,11 @@ import { SectionHeading } from '../ui/SectionHeading'
 type SlideDirection = 'next' | 'previous'
 type SlideTransition = { previousIndex: number; direction: SlideDirection }
 
+const autoplayDelayMs = 7_000
+const swipeThresholdPx = 48
+const swipeAxisRatio = 1.5
+const scrollSettleMs = 160
+
 export function FeaturedProjects() {
   const sectionRef = useRef<HTMLElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
@@ -19,8 +24,12 @@ export function FeaturedProjects() {
   const [pageVisible, setPageVisible] = useState(true)
   const [reducedMotion, setReducedMotion] = useState(false)
   const [isPlaying, setIsPlaying] = useState(true)
+  const [isTouching, setIsTouching] = useState(false)
+  const [isScrolling, setIsScrolling] = useState(false)
   const [announcement, setAnnouncement] = useState('')
   const [transition, setTransition] = useState<SlideTransition | null>(null)
+  const touchOriginRef = useRef<{ x: number; y: number } | null>(null)
+  const scrollSettleTimerRef = useRef<number | null>(null)
 
   useEffect(() => {
     const section = sectionRef.current
@@ -53,13 +62,37 @@ export function FeaturedProjects() {
   }, [])
 
   useEffect(() => {
-    if (!isVisible || isHovered || hasFocus || !pageVisible || reducedMotion || !isPlaying || projects.length < 2) return
+    function handleScroll() {
+      setIsScrolling(true)
+      if (scrollSettleTimerRef.current !== null) {
+        window.clearTimeout(scrollSettleTimerRef.current)
+      }
+      scrollSettleTimerRef.current = window.setTimeout(() => {
+        scrollSettleTimerRef.current = null
+        setIsScrolling(false)
+      }, scrollSettleMs)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (scrollSettleTimerRef.current !== null) {
+        window.clearTimeout(scrollSettleTimerRef.current)
+        scrollSettleTimerRef.current = null
+      }
+    }
+  }, [])
+
+  const isAutoplayPaused = !isVisible || isHovered || hasFocus || !pageVisible || reducedMotion || !isPlaying || isTouching || isScrolling
+
+  useEffect(() => {
+    if (isAutoplayPaused || projects.length < 2) return
     const timer = window.setTimeout(() => {
       setTransition({ previousIndex: activeIndex, direction: 'next' })
       setActiveIndex((activeIndex + 1) % projects.length)
-    }, 5000)
+    }, autoplayDelayMs)
     return () => window.clearTimeout(timer)
-  }, [activeIndex, isVisible, isHovered, hasFocus, pageVisible, reducedMotion, isPlaying])
+  }, [activeIndex, isAutoplayPaused])
 
   function showProject(nextIndex: number, direction: SlideDirection) {
     if (nextIndex === activeIndex) return
@@ -68,8 +101,47 @@ export function FeaturedProjects() {
     setAnnouncement(`${projects[nextIndex].name}, project ${nextIndex + 1} of ${projects.length}`)
   }
 
+  function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
+    const touch = event.touches[0]
+    if (!touch) return
+
+    touchOriginRef.current = { x: touch.clientX, y: touch.clientY }
+    setIsTouching(true)
+  }
+
+  function handleTouchEnd(event: TouchEvent<HTMLDivElement>) {
+    const origin = touchOriginRef.current
+    const touch = event.changedTouches[0]
+    touchOriginRef.current = null
+    setIsTouching(false)
+
+    if (!origin || !touch) return
+
+    const deltaX = touch.clientX - origin.x
+    const deltaY = touch.clientY - origin.y
+
+    // Require a clear horizontal gesture so vertical scrolling and taps stay untouched.
+    if (Math.abs(deltaX) < swipeThresholdPx || Math.abs(deltaX) < Math.abs(deltaY) * swipeAxisRatio) {
+      return
+    }
+
+    event.preventDefault() // Prevent only this swipe's synthetic click, not a later intentional tap.
+
+    if (deltaX < 0) {
+      showProject((activeIndex + 1) % projects.length, 'next')
+      return
+    }
+
+    showProject((activeIndex - 1 + projects.length) % projects.length, 'previous')
+  }
+
+  function handleTouchCancel() {
+    touchOriginRef.current = null
+    setIsTouching(false)
+  }
+
   return (
-    <section ref={sectionRef} id="projects" data-scroll-anchor data-reveal data-chapter="02" data-project-index={activeIndex} className="projects-section chapter-section py-16 sm:py-24 lg:py-28" aria-labelledby="featured-projects-title">
+    <section ref={sectionRef} id="projects" data-scroll-anchor data-reveal data-chapter="02" data-project-index={activeIndex} data-autoplay-state={isAutoplayPaused ? 'paused' : 'running'} className="projects-section chapter-section py-16 sm:py-24 lg:py-28" aria-labelledby="featured-projects-title">
       <SectionAtmosphere scene="projects" />
       <Container>
         <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
@@ -107,6 +179,9 @@ export function FeaturedProjects() {
             <div
               className="project-carousel__stage"
               aria-live="off"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              onTouchCancel={handleTouchCancel}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               onFocusCapture={() => setHasFocus(true)}

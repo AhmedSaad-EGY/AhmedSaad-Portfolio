@@ -1,16 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { apiUrl } from '../../app/api'
+import { MobileDock } from './MobileDock'
+import { isLikeSnapshot, isTextEntryControl, likeButtonLabel, likeCountLabel, type LikeSnapshot, type LikeStatus } from './likeState'
 
 const visitorKey = 'portfolio-visitor-id'
 const likePromptSessionKey = 'portfolio-like-prompt-shown'
 const likePromptDelayMs = 10_000
 const likePromptDurationMs = 5_000
-
-type LikeSnapshot = {
-  count: number
-  liked: boolean
-}
 
 function getVisitorId() {
   const existing = window.localStorage.getItem(visitorKey)
@@ -23,25 +20,34 @@ function getVisitorId() {
   return visitorId
 }
 
-function isLikeSnapshot(value: unknown): value is LikeSnapshot {
-  if (!value || typeof value !== 'object') {
-    return false
-  }
-
-  const snapshot = value as Partial<LikeSnapshot>
-  return Number.isSafeInteger(snapshot.count) && Number(snapshot.count) >= 0 && typeof snapshot.liked === 'boolean'
-}
-
 export function EngagementLike() {
   const [snapshot, setSnapshot] = useState<LikeSnapshot | null>(null)
-  const [status, setStatus] = useState<'loading' | 'ready' | 'saving' | 'error'>('loading')
+  const [status, setStatus] = useState<LikeStatus>('loading')
   const [celebrating, setCelebrating] = useState(false)
   const [isPromptVisible, setIsPromptVisible] = useState(false)
+  const [isTextEntryFocused, setIsTextEntryFocused] = useState(false)
   const [notice, setNotice] = useState('Loading portfolio appreciation count.')
   const visitorIdRef = useRef('')
   const celebrationTimerRef = useRef<number | null>(null)
   const promptTimerRef = useRef<number | null>(null)
   const promptDismissTimerRef = useRef<number | null>(null)
+  const promptRemainingRef = useRef(likePromptDelayMs)
+
+  useEffect(() => {
+    let focusTimer: number | null = null
+    const handleFocusIn = (event: FocusEvent) => setIsTextEntryFocused(isTextEntryControl(event.target as Element | null))
+    const handleFocusOut = () => {
+      focusTimer = window.setTimeout(() => setIsTextEntryFocused(isTextEntryControl(document.activeElement)), 0)
+    }
+
+    document.addEventListener('focusin', handleFocusIn)
+    document.addEventListener('focusout', handleFocusOut)
+    return () => {
+      document.removeEventListener('focusin', handleFocusIn)
+      document.removeEventListener('focusout', handleFocusOut)
+      if (focusTimer !== null) window.clearTimeout(focusTimer)
+    }
+  }, [])
 
   useEffect(() => {
     let active = true
@@ -93,29 +99,32 @@ export function EngagementLike() {
       return
     }
 
-    let remainingDelay = likePromptDelayMs
     let startedAt = 0
 
     function clearPromptTimer() {
       if (promptTimerRef.current !== null) {
+        promptRemainingRef.current = Math.max(0, promptRemainingRef.current - (Date.now() - startedAt))
         window.clearTimeout(promptTimerRef.current)
         promptTimerRef.current = null
+        startedAt = 0
       }
     }
 
     function showPrompt() {
+      promptTimerRef.current = null
+      startedAt = 0
       window.sessionStorage.setItem(likePromptSessionKey, 'true')
       setIsPromptVisible(true)
       promptDismissTimerRef.current = window.setTimeout(() => setIsPromptVisible(false), likePromptDurationMs)
     }
 
     function schedulePrompt() {
-      if (document.visibilityState !== 'visible' || promptTimerRef.current !== null) {
+      if (document.visibilityState !== 'visible' || isTextEntryFocused || promptTimerRef.current !== null) {
         return
       }
 
       startedAt = Date.now()
-      promptTimerRef.current = window.setTimeout(showPrompt, remainingDelay)
+      promptTimerRef.current = window.setTimeout(showPrompt, promptRemainingRef.current)
     }
 
     function handleVisibilityChange() {
@@ -124,9 +133,6 @@ export function EngagementLike() {
         return
       }
 
-      if (startedAt > 0) {
-        remainingDelay = Math.max(0, remainingDelay - (Date.now() - startedAt))
-      }
       clearPromptTimer()
     }
 
@@ -137,7 +143,7 @@ export function EngagementLike() {
       clearPromptTimer()
       document.removeEventListener('visibilitychange', handleVisibilityChange)
     }
-  }, [snapshot, status])
+  }, [snapshot, status, isTextEntryFocused])
 
   async function toggleLike() {
     if (!snapshot || status === 'saving') {
@@ -193,35 +199,44 @@ export function EngagementLike() {
     }
   }
 
-  const countLabel = snapshot ? new Intl.NumberFormat('en').format(snapshot.count) : '—'
   const isUnavailable = status === 'error'
 
   return (
-    <aside className="engagement-like" aria-label="Portfolio appreciation">
-      {isPromptVisible && (
-        <p className="engagement-like__prompt" aria-hidden="true">
-          Enjoying the portfolio? Leave a like.
-        </p>
-      )}
-      <button
-        className="focus-ring engagement-like__button"
-        type="button"
-        aria-label={`${snapshot?.liked ? 'Remove your like from' : 'Like'} this portfolio. ${snapshot?.count ?? 'Count unavailable'} likes.`}
-        aria-pressed={snapshot?.liked ?? false}
-        disabled={!snapshot || status === 'saving'}
-        data-liked={snapshot?.liked ? 'true' : 'false'}
-        data-celebrate={celebrating ? 'true' : 'false'}
-        onClick={toggleLike}
-      >
-        <span className="engagement-like__flash" aria-hidden="true" />
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z" />
-        </svg>
-        <span className="engagement-like__text" aria-hidden="true">{snapshot?.liked ? 'Liked' : 'Like'}</span>
-        <span className="engagement-like__count" aria-hidden="true">{countLabel}</span>
-      </button>
-      <span className="engagement-like__label" aria-hidden="true">{isUnavailable ? 'OFFLINE' : 'APPRECIATE'}</span>
+    <>
+      <MobileDock
+        snapshot={snapshot}
+        status={status}
+        celebrating={celebrating}
+        isPromptVisible={isPromptVisible}
+        isTextEntryFocused={isTextEntryFocused}
+        onToggleLike={toggleLike}
+      />
+      <aside className="engagement-like" aria-label="Portfolio appreciation">
+        {isPromptVisible && (
+          <p className="engagement-like__prompt" aria-hidden="true">
+            Enjoying the portfolio? Leave a like.
+          </p>
+        )}
+        <button
+          className="focus-ring engagement-like__button"
+          type="button"
+          aria-label={likeButtonLabel(snapshot)}
+          aria-pressed={snapshot?.liked ?? false}
+          disabled={!snapshot || status === 'saving'}
+          data-liked={snapshot?.liked ? 'true' : 'false'}
+          data-celebrate={celebrating ? 'true' : 'false'}
+          onClick={toggleLike}
+        >
+          <span className="engagement-like__flash" aria-hidden="true" />
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z" />
+          </svg>
+          <span className="engagement-like__text" aria-hidden="true">{snapshot?.liked ? 'Liked' : 'Like'}</span>
+          <span className="engagement-like__count" aria-hidden="true">{likeCountLabel(snapshot)}</span>
+        </button>
+        <span className="engagement-like__label" aria-hidden="true">{isUnavailable ? 'OFFLINE' : 'APPRECIATE'}</span>
+      </aside>
       <span className="sr-only" aria-live="polite">{notice}</span>
-    </aside>
+    </>
   )
 }

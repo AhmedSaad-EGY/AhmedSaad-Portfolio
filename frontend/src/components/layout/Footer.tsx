@@ -4,7 +4,7 @@ import { Container } from '../ui/Container'
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/80 bg-bg py-10">
+    <footer className="border-t border-border/80 bg-bg pt-10 pb-[calc(2.5rem+var(--mobile-dock-clearance))]">
       <Container className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <div className="flex items-center gap-3">
