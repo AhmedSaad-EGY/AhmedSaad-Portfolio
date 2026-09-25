@@ -54,7 +54,7 @@ describe('portfolio appreciation', () => {
     const rail = screen.getByRole('complementary', { name: 'Portfolio appreciation' })
     const button = within(rail).getByRole('button', { name: /count unavailable/i })
     expect(button).toBeDisabled()
-    expect(within(rail).getByText('OFFLINE')).toBeInTheDocument()
+    expect(within(rail).getByText('OFFLINE')).toHaveClass('engagement-like__text')
     expect(within(rail).getByText('—')).toBeInTheDocument()
     await act(async () => { await vi.advanceTimersByTimeAsync(10_000) })
     expect(within(rail).queryByText('Enjoying the portfolio? Leave a like.')).not.toBeInTheDocument()

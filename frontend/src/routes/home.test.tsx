@@ -24,7 +24,7 @@ describe('home route', () => {
     expect(screen.getAllByText('Backend .NET Developer')).not.toHaveLength(0)
     expect(screen.getByRole('heading', { name: 'Let’s Build Something Reliable.' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Send Message' })).toBeEnabled()
-    expect(screen.getByRole('heading', { name: 'Digital Egypt Pioneers Program (DEPI)' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Digital Egypt Pioneers Initiative (DEPI)' })).toBeInTheDocument()
     expect(screen.getByRole('img', { name: /DEPI Certificate of Achievement/ })).toHaveAttribute('loading', 'lazy')
     expect(screen.getByRole('link', { name: 'View certificate' })).toHaveAttribute('href', 'https://drive.google.com/file/d/1hOIl_BS22vTCCjCWqvnO5eV2-T-rIAn2/view?usp=sharing')
     expect(screen.getByRole('link', { name: 'Resume' })).toHaveAttribute('href', 'https://drive.google.com/file/d/1SAC15_6P-STkrfgnyMSiBScNMmcF8xLz')

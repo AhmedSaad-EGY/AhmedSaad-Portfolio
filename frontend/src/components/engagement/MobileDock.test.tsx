@@ -99,6 +99,6 @@ describe('mobile bottom dock', () => {
     expect(screen.getByRole('navigation', { name: 'Portfolio quick actions' })).toBeInTheDocument()
     const desktopRail = screen.getByRole('complementary', { name: 'Portfolio appreciation' })
     expect(desktopRail).toBeInTheDocument()
-    expect(desktopRail.querySelector('.engagement-like__label')).toHaveTextContent('APPRECIATE')
+    expect(desktopRail.querySelector('.engagement-like__text')).toHaveTextContent('Like')
   })
 })
