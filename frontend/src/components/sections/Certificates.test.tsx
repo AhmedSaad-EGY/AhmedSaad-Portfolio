@@ -38,24 +38,30 @@ describe('certificate showcase', () => {
     expect(carousel).toHaveAttribute('data-accent', 'blue')
   })
 
-  it('rotates after seven seconds and pauses for interaction or Pause', () => {
+  it('rotates after 4s and waits 10s after manual navigation', () => {
     vi.useFakeTimers()
     renderCertificates()
     const carousel = screen.getByRole('region', { name: 'Certificates' })
-    act(() => vi.advanceTimersByTime(6999))
+    act(() => vi.advanceTimersByTime(3999))
     expect(carousel).toHaveAttribute('data-accent', 'blue')
     act(() => vi.advanceTimersByTime(1))
     expect(carousel).toHaveAttribute('data-accent', 'green')
 
     fireEvent.mouseEnter(carousel)
-    act(() => vi.advanceTimersByTime(7000))
+    act(() => vi.advanceTimersByTime(4000))
     expect(carousel).toHaveAttribute('data-accent', 'green')
     fireEvent.mouseLeave(carousel)
     fireEvent.click(screen.getByRole('button', { name: 'Pause certificate rotation' }))
-    act(() => vi.advanceTimersByTime(7000))
+    act(() => vi.advanceTimersByTime(4000))
     expect(carousel).toHaveAttribute('data-accent', 'green')
     fireEvent.click(screen.getByRole('button', { name: 'Play certificate rotation' }))
-    act(() => vi.advanceTimersByTime(7000))
+    act(() => vi.advanceTimersByTime(4000))
+    expect(carousel).toHaveAttribute('data-accent', 'blue')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Next certificate' }))
+    act(() => vi.advanceTimersByTime(9999))
+    expect(carousel).toHaveAttribute('data-accent', 'green')
+    act(() => vi.advanceTimersByTime(1))
     expect(carousel).toHaveAttribute('data-accent', 'blue')
   })
 

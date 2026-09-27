@@ -10,7 +10,8 @@ import { SectionHeading } from '../ui/SectionHeading'
 type SlideDirection = 'next' | 'previous'
 type SlideTransition = { previousIndex: number; direction: SlideDirection }
 
-const autoplayDelayMs = 7_000
+const automaticRotationDelayMs = 4_000
+const manualRotationDelayMs = 10_000
 const swipeThresholdPx = 48
 const swipeAxisRatio = 1.5
 const scrollSettleMs = 160
@@ -24,6 +25,7 @@ export function FeaturedProjects() {
   const [pageVisible, setPageVisible] = useState(true)
   const [reducedMotion, setReducedMotion] = useState(false)
   const [isPlaying, setIsPlaying] = useState(true)
+  const [nextRotationDelay, setNextRotationDelay] = useState(automaticRotationDelayMs)
   const [isTouching, setIsTouching] = useState(false)
   const [isScrolling, setIsScrolling] = useState(false)
   const [announcement, setAnnouncement] = useState('')
@@ -88,14 +90,16 @@ export function FeaturedProjects() {
   useEffect(() => {
     if (isAutoplayPaused || projects.length < 2) return
     const timer = window.setTimeout(() => {
+      setNextRotationDelay(automaticRotationDelayMs)
       setTransition({ previousIndex: activeIndex, direction: 'next' })
       setActiveIndex((activeIndex + 1) % projects.length)
-    }, autoplayDelayMs)
+    }, nextRotationDelay)
     return () => window.clearTimeout(timer)
-  }, [activeIndex, isAutoplayPaused])
+  }, [activeIndex, isAutoplayPaused, nextRotationDelay])
 
   function showProject(nextIndex: number, direction: SlideDirection) {
     if (nextIndex === activeIndex) return
+    setNextRotationDelay(manualRotationDelayMs)
     setTransition(reducedMotion ? null : { previousIndex: activeIndex, direction })
     setActiveIndex(nextIndex)
     setAnnouncement(`${projects[nextIndex].name}, project ${nextIndex + 1} of ${projects.length}`)

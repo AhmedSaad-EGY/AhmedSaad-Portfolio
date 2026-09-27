@@ -45,11 +45,11 @@ describe('featured projects carousel', () => {
     expect(screen.getByRole('button', { name: 'Show project 3: Saiyad' })).toHaveAttribute('aria-pressed', 'true')
   })
 
-  it('advances automatically only while the visitor is not interacting (7s timer)', () => {
+  it('rotates automatically after 4s and waits 10s after manual navigation', () => {
     vi.useFakeTimers()
     renderProjects()
 
-    act(() => vi.advanceTimersByTime(6999))
+    act(() => vi.advanceTimersByTime(3999))
     expect(screen.getByRole('heading', { name: 'Clinic Management' })).toBeInTheDocument()
     act(() => vi.advanceTimersByTime(1))
     expect(screen.getByRole('heading', { name: 'EstateHub' })).toBeInTheDocument()
@@ -57,20 +57,26 @@ describe('featured projects carousel', () => {
 
     const activeSlide = screen.getByRole('heading', { name: 'EstateHub' }).closest('.project-carousel__stage')!
     fireEvent.mouseEnter(activeSlide)
-    act(() => vi.advanceTimersByTime(7000))
+    act(() => vi.advanceTimersByTime(4000))
     expect(screen.getByRole('heading', { name: 'EstateHub' })).toBeInTheDocument()
 
     fireEvent.mouseLeave(activeSlide)
-    act(() => vi.advanceTimersByTime(7000))
+    act(() => vi.advanceTimersByTime(4000))
     expect(screen.getByRole('heading', { name: 'Saiyad' })).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Pause automatic rotation' }))
-    act(() => vi.advanceTimersByTime(7000))
+    act(() => vi.advanceTimersByTime(4000))
     expect(screen.getByRole('heading', { name: 'Saiyad' })).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Resume automatic rotation' }))
-    act(() => vi.advanceTimersByTime(7000))
+    act(() => vi.advanceTimersByTime(4000))
     expect(screen.getByRole('heading', { name: 'Khidma' })).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Next project' }))
+    act(() => vi.advanceTimersByTime(9999))
+    expect(screen.getByRole('heading', { name: 'Clinic Management' })).toBeInTheDocument()
+    act(() => vi.advanceTimersByTime(1))
+    expect(screen.getByRole('heading', { name: 'EstateHub' })).toBeInTheDocument()
   })
 
   it('navigates with swipe gestures and protects vertical scrolling', () => {
@@ -104,22 +110,22 @@ describe('featured projects carousel', () => {
     expect(screen.getByRole('heading', { name: 'Clinic Management' })).toBeInTheDocument()
   })
 
-  it('pauses the 7s autoplay timer during touch interaction and resumes after', () => {
+  it('pauses the 4s autoplay timer during touch interaction and resumes after', () => {
     vi.useFakeTimers()
     renderProjects()
     const stage = document.querySelector('.project-carousel__stage')!
 
-    act(() => vi.advanceTimersByTime(5000))
+    act(() => vi.advanceTimersByTime(3000))
     // User places finger on stage (touch start)
     fireEvent.touchStart(stage, { touches: [{ clientX: 100, clientY: 100 }] })
-    // While touching, 7 seconds pass - should NOT advance
-    act(() => vi.advanceTimersByTime(7000))
+    // While touching, auto rotation must not advance.
+    act(() => vi.advanceTimersByTime(4000))
     expect(screen.getByRole('heading', { name: 'Clinic Management' })).toBeInTheDocument()
 
     // Touch cancels without a swipe
     fireEvent.touchCancel(stage)
-    // Autoplay resumes with a fresh 7-second interval
-    act(() => vi.advanceTimersByTime(6999))
+    // Autoplay resumes with a fresh 4-second interval.
+    act(() => vi.advanceTimersByTime(3999))
     expect(screen.getByRole('heading', { name: 'Clinic Management' })).toBeInTheDocument()
     act(() => vi.advanceTimersByTime(1))
     expect(screen.getByRole('heading', { name: 'EstateHub' })).toBeInTheDocument()
@@ -129,7 +135,7 @@ describe('featured projects carousel', () => {
     vi.useFakeTimers()
     renderProjects()
 
-    act(() => vi.advanceTimersByTime(5000))
+    act(() => vi.advanceTimersByTime(3000))
     // Scroll event fires
     act(() => {
       window.dispatchEvent(new Event('scroll'))
@@ -138,13 +144,13 @@ describe('featured projects carousel', () => {
     act(() => vi.advanceTimersByTime(100))
     expect(screen.getByRole('heading', { name: 'Clinic Management' })).toBeInTheDocument()
 
-    // Let the scroll settle timer (remaining 60ms) finish, which unpauses and starts a fresh 7000ms autoplay timer
+    // Let the scroll settle timer finish, which restarts the 4s autoplay timer.
     act(() => vi.advanceTimersByTime(60))
-    // 6999ms into the fresh interval: still on Clinic Management
-    act(() => vi.advanceTimersByTime(6999))
+    // 3999ms into the fresh interval: still on Clinic Management.
+    act(() => vi.advanceTimersByTime(3999))
     expect(screen.getByRole('heading', { name: 'Clinic Management' })).toBeInTheDocument()
 
-    // 1ms later (7000ms complete): advances to EstateHub
+    // 1ms later (4s complete): advances to EstateHub.
     act(() => vi.advanceTimersByTime(1))
     expect(screen.getByRole('heading', { name: 'EstateHub' })).toBeInTheDocument()
   })

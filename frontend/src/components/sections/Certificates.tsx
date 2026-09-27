@@ -23,7 +23,8 @@ const certificates = [
   },
 ] as const
 
-const rotationDelay = 7_000
+const automaticRotationDelayMs = 4_000
+const manualRotationDelayMs = 10_000
 const swipeThresholdPx = 48
 const swipeAxisRatio = 1.5
 
@@ -38,6 +39,7 @@ export function Certificates() {
   const [pageVisible, setPageVisible] = useState(true)
   const [reducedMotion, setReducedMotion] = useState(false)
   const [isPlaying, setIsPlaying] = useState(true)
+  const [nextRotationDelay, setNextRotationDelay] = useState(automaticRotationDelayMs)
   const [isTouching, setIsTouching] = useState(false)
   const [timerVersion, setTimerVersion] = useState(0)
   const [announcement, setAnnouncement] = useState('')
@@ -75,16 +77,18 @@ export function Certificates() {
   useEffect(() => {
     if (paused) return
     const timer = window.setTimeout(() => {
+      setNextRotationDelay(automaticRotationDelayMs)
       setDirection('next')
       setPreviousIndex(activeIndex)
       setActiveIndex((activeIndex + 1) % certificates.length)
-    }, rotationDelay)
+    }, nextRotationDelay)
     return () => window.clearTimeout(timer)
-  }, [activeIndex, paused, timerVersion])
+  }, [activeIndex, paused, timerVersion, nextRotationDelay])
 
   function showCertificate(nextIndex: number, nextDirection: 'next' | 'previous') {
     setTimerVersion((version) => version + 1)
     if (nextIndex === activeIndex) return
+    setNextRotationDelay(manualRotationDelayMs)
     setDirection(nextDirection)
     setPreviousIndex(reducedMotion ? null : activeIndex)
     setActiveIndex(nextIndex)
