@@ -16,8 +16,9 @@ export const experience = [
     period: 'Nov 2025 – Jul 2026',
     location: '',
     bullets: [
-      'Completed intensive training in backend engineering focusing on ASP.NET Core REST APIs, EF Core, SQL Server, JWT authentication, and SOLID principles.',
-      'Led a 4-person development team to build Saiyad as a graduation project, managing team collaboration, task delegation, and version control via Git and GitHub.',
+      'Completed intensive backend-focused .NET training covering ASP.NET Core REST APIs, EF Core, SQL Server, JWT authentication, and SOLID principles.',
+      'Served as the overall Team Leader for the DEPI group while also leading a 4-person team that built Saiyad as the graduation project.',
+      'Awarded a Team Leader Certificate for outstanding leadership and exceptional contributions during the Digital Egypt Pioneers Program.',
     ],
   },
 ] as const
